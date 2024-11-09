@@ -172,110 +172,109 @@ def get_velocity(particle_positions, faces, node_positions, node_velocities, fac
 def forward_particle_advection(TrianT, centroids, particle_positions, node_positions, node_velocities, time_steps, dt):
 
     time_length = len(time_steps)
-    number_particles = len(particle_positions[:,0])
+    number_particles = len(particle_positions[:, 0])
 
     x_traj = np.zeros((number_particles, time_length))
     y_traj = np.zeros((number_particles, time_length))
     z_traj = np.zeros((number_particles, time_length))
 
+    # Build the initial kdtree and project initial particles onto the surface
+    kdtree = KDTree(centroids[:, :, 0])
+    new_positions, centroid_indices = particle_projection(TrianT[:, :, 0], kdtree, particle_positions, node_positions[:, :, 0])
+    new_positions, centroid_indices = particle_projection(TrianT[:, :, 0], kdtree, new_positions, node_positions[:, :, 0])
 
-    #### Perfomr advection from time_steps 0 to 1
-    # Build the initial kdtree
-    kdtree = KDTree(centroids[:,:, 0])
-
-
-    # Make sure the initial particles are on the surface(project twice)
-    new_positions, centroid_indices = particle_projection(TrianT[:,:, 0], kdtree, particle_positions, node_positions[:,:, 0]) 
-    new_positions, centroid_indices = particle_projection(TrianT[:,:, 0], kdtree, new_positions, node_positions[:,:, 0])
-    
-
-    # Set up initial trajectories
+    # Initialize trajectories and running positions
     x_traj[:, 0] = new_positions[:, 0]
     y_traj[:, 0] = new_positions[:, 1]
     z_traj[:, 0] = new_positions[:, 2]
+    x_current, y_current, z_current = x_traj[:, 0], y_traj[:, 0], z_traj[:, 0]
 
-    # Running positions
-    x_current = x_traj[:, 0]
-    y_current = y_traj[:, 0]
-    z_current = z_traj[:, 0]
+    for t in range(1, time_length):
+        
+        def velocity_at_position(x, y, z):
+            pos = np.array([x, y, z]).T
+            velocities = get_velocity(pos, TrianT[:, :, t], node_positions[:, :, t], node_velocities[:, :, t], centroid_indices)
+            return velocities[:, 0], velocities[:, 1], velocities[:, 2]
 
-    # Get current velocities for t=0
-    current_positions = np.array([x_current, y_current, z_current]).T
-    velocities = get_velocity(current_positions, TrianT[:,:,0], node_positions[:,:, 0], node_velocities[:,:, 0], centroid_indices)
+        #RK4 
+        k1_x, k1_y, k1_z = velocity_at_position(x_current, y_current, z_current)
+        k2_x, k2_y, k2_z = velocity_at_position(x_current + 0.5 * dt * k1_x, y_current + 0.5 * dt * k1_y, z_current + 0.5 * dt * k1_z)
+        k3_x, k3_y, k3_z = velocity_at_position(x_current + 0.5 * dt * k2_x, y_current + 0.5 * dt * k2_y, z_current + 0.5 * dt * k2_z)
+        k4_x, k4_y, k4_z = velocity_at_position(x_current + dt * k3_x, y_current + dt * k3_y, z_current + dt * k3_z)
 
-    for t in range(1 , time_length):
+        x_current += (dt / 6.0) * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
+        y_current += (dt / 6.0) * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
+        z_current += (dt / 6.0) * (k1_z + 2 * k2_z + 2 * k3_z + k4_z)
 
-        x_current += velocities[:, 0] * dt
-        y_current += velocities[:, 1] * dt
-        z_current += velocities[:, 2] * dt
-
-        kdtree = KDTree(centroids[:,:, t])
-
+        # Project new positions back onto the surface
+        kdtree = KDTree(centroids[:, :, t])
         current_positions = np.array([x_current, y_current, z_current]).T
-        new_positions, centroid_indices = particle_projection(TrianT[:,:, t], kdtree, current_positions, node_positions[:,:,t])
+        new_positions, centroid_indices = particle_projection(TrianT[:, :, t], kdtree, current_positions, node_positions[:, :, t])
 
-        x_traj[:, t] = new_positions[:,0]
-        y_traj[:, t] = new_positions[:,1]
-        z_traj[:, t] = new_positions[:,2]
-
-        velocities = get_velocity(new_positions, TrianT[:,:, t], node_positions[:,:,t], node_velocities[:,:, t], centroid_indices)
-
+        
+        x_traj[:, t] = new_positions[:, 0]
+        y_traj[:, t] = new_positions[:, 1]
+        z_traj[:, t] = new_positions[:, 2]
+        x_current, y_current, z_current = new_positions[:, 0], new_positions[:, 1], new_positions[:, 2]
 
     return x_traj, y_traj, z_traj
 
 
 def backward_particle_advection(TrianT, centroids, particle_positions, node_positions, node_velocities, time_steps, dt):
-
-
-
-    time_length = len(time_steps)  - 1
-    number_particles = len(particle_positions[:,0])
+    time_length = len(time_steps) - 1
+    number_particles = len(particle_positions[:, 0])
 
     x_traj = np.zeros((number_particles, time_length))
     y_traj = np.zeros((number_particles, time_length))
     z_traj = np.zeros((number_particles, time_length))
 
+    # Build the initial KDTree
+    kdtree = KDTree(centroids[:, :, -1])
 
-    #### Perfomr advection from time_steps 0 to 1
-    # Build the initial kdtree
-    kdtree = KDTree(centroids[:,:, -1])
-
-
-    # Make sure the initial particles are on the surface(project twice)
-    new_positions, centroid_indices = particle_projection(TrianT[:,:, -1], kdtree, particle_positions, node_positions[:,:, -1]) 
-    new_positions, centroid_indices = particle_projection(TrianT[:,:, -1], kdtree, new_positions, node_positions[:,:, -1])
+    # Project initial particles onto the surface 
+    new_positions, centroid_indices = particle_projection(TrianT[:, :, -1], kdtree, particle_positions, node_positions[:, :, -1])
     
 
-    # Set up initial trajectories
+    # Initialize trajectories
     x_traj[:, 0] = new_positions[:, 0]
     y_traj[:, 0] = new_positions[:, 1]
     z_traj[:, 0] = new_positions[:, 2]
 
-    # Running positions
+    # Set initial positions
     x_current = x_traj[:, 0]
     y_current = y_traj[:, 0]
     z_current = z_traj[:, 0]
 
-    # Get current velocities for t=0
-    current_positions = np.array([x_current, y_current, z_current]).T
-    velocities = get_velocity(current_positions, TrianT[:,:,-1], node_positions[:,:, -1], node_velocities[:,:, -1], centroid_indices)
-    time_length -= 1 # update time length parameter
+    time_length -= 1  # Update time length for indexing
     for t in range(time_length, -1, -1):
 
-        x_current -= velocities[:, 0] * dt
-        y_current -= velocities[:, 1] * dt
-        z_current -= velocities[:, 2] * dt
+        def velocity_at_position(x, y, z):
+            pos = np.array([x, y, z]).T
+            velocities = get_velocity(pos, TrianT[:, :, t], node_positions[:, :, t], node_velocities[:, :, t], centroid_indices)
+            return velocities[:, 0], velocities[:, 1], velocities[:, 2]
 
-        kdtree = KDTree(centroids[:,:, t])
+        #RK4
+        k1_x, k1_y, k1_z = velocity_at_position(x_current, y_current, z_current)
+        k2_x, k2_y, k2_z = velocity_at_position(x_current + 0.5 * dt * k1_x, y_current + 0.5 * dt * k1_y, z_current + 0.5 * dt * k1_z)
+        k3_x, k3_y, k3_z = velocity_at_position(x_current + 0.5 * dt * k2_x, y_current + 0.5 * dt * k2_y, z_current + 0.5 * dt * k2_z)
+        k4_x, k4_y, k4_z = velocity_at_position(x_current + dt * k3_x, y_current + dt * k3_y, z_current + dt * k3_z)
 
+        
+        x_current -= (dt / 6.0) * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
+        y_current -= (dt / 6.0) * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
+        z_current -= (dt / 6.0) * (k1_z + 2 * k2_z + 2 * k3_z + k4_z)
+
+
+        # Update KDTree and project particles onto the surface
+        kdtree = KDTree(centroids[:, :, t])
         current_positions = np.array([x_current, y_current, z_current]).T
-        new_positions, centroid_indices = particle_projection(TrianT[:,:, t], kdtree, current_positions, node_positions[:,:,t])
+        new_positions, centroid_indices = particle_projection(TrianT[:, :, t], kdtree, current_positions, node_positions[:, :, t])
 
-        x_traj[:, time_length  - t] = new_positions[:,0]
-        y_traj[:, time_length  - t] = new_positions[:,1]
-        z_traj[:, time_length  - t] = new_positions[:,2]
+        # Update trajectories
+        x_traj[:, time_length - t] = new_positions[:, 0]
+        y_traj[:, time_length - t] = new_positions[:, 1]
+        z_traj[:, time_length - t] = new_positions[:, 2]
 
-        velocities = get_velocity(new_positions, TrianT[:,:, t], node_positions[:,:,t], node_velocities[:,:, t], centroid_indices)
-
+        x_current, y_current, z_current = new_positions[:, 0], new_positions[:, 1], new_positions[:, 2]
 
     return x_traj, y_traj, z_traj
