@@ -31,12 +31,8 @@ def local_tangent_project(A, B, C, position):
     # Calculate the vector from A to the position
     vec3 = position - A
 
-    # Project vec3 onto the tangent vectors
-    x_local_1 = np.dot(vec3, vec1)
-    x_local_2 = np.dot(vec3, vec2)
-
-    # The local coordinates in the tangent plane
-    return np.array([x_local_1, x_local_2])
+    # Project vec3 onto the vectors
+    return np.array([np.dot(vec3, vec1), np.dot(vec3, vec2)])
 
 
 
@@ -55,12 +51,13 @@ def FTLE_compute(node_positions, centroids, initial_positions, final_positions, 
     TrianT: Connections of vertices
 
     Returns:
-    FTLE: Finite Time Lyaponov Exponent array
+    FTLE: Finite Time Lyaponov Exponent 
     """
     position_kdtree = KDTree(initial_positions)
     centroid_kdtree = KDTree(centroids)
 
     number_points = initial_positions.shape[0]
+
 
     FTLE = np.zeros(number_points)
     for i in range(number_points - 1):
@@ -72,6 +69,8 @@ def FTLE_compute(node_positions, centroids, initial_positions, final_positions, 
         Itangent_face = TrianT[tangent_face_index, :]
         Itangent_face_positions = node_positions[Itangent_face, :]
 
+
+       
         # Get Final position data
         Fclosest_positions = final_positions[closest_indexes[1:], :]
         _, Ftangent_face_index = centroid_kdtree.query(final_positions[i, :], 1)
