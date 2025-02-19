@@ -6,6 +6,8 @@ import pyvista as pv
 import time
 from Mesh_FTLE import FTLE_compute
 import time
+from Mesh_advect import NEWforward_particle_advection, NEW_fast_forward_particle_advection, NEW_RK4_forward_particle_advection
+from Mesh_advect import NEW_fast_backward_particle_advection, NEWbackward_particle_advection, NEW_RK4_backward_particle_advection
 
 
 
@@ -236,8 +238,6 @@ def run_simulation(node_connections, centroids, particle_positions, node_positio
 
 file_path = f'C:/Users/bafen/OneDrive/Documents/Research/Dynmaic Morphoskeleton/Mesh_LCS/mesh_data.mat'
 
-from Mesh_advect import NEWforward_particle_advection, NEW_fast_forward_particle_advection, NEW_RK4_forward_particle_advection
-from Mesh_advect import NEW_fast_backward_particle_advection, NEWbackward_particle_advection, NEW_RK4_backward_particle_advection
 
 
 
