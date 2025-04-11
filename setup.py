@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="ftle_package",
+    name="ftlePackage",
     version="0.1.0",
     description="A Python package for computing FTLE fields in flat and curved sub domains of Euclidean 3 space",
     author="Blase Fencil",
