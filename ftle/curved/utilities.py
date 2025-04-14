@@ -2,21 +2,22 @@ import numpy as np
 import pyvista as pv
 
 
-def camera_position_to_angles(camera):
+def camera_position_to_angles(position, focal_point):
     """
-    Converts camera position and focal point to (azimuth, elevation) in degrees.
-    
+    Converts camera position relative to focal point into (azimuth, elevation) in degrees.
+
     Parameters:
-        camera: pv.Camera object
-    
+        position: (3,) array-like, camera position
+        focal_point: (3,) array-like, camera focal point
+
     Returns:
         azimuth, elevation (degrees)
     """
-    x, y, z = np.array(camera.focal_point) - np.array(camera.position)
-    r = np.linalg.norm([x, y, z])
+    vec = np.array(position) - np.array(focal_point)
+    r = np.linalg.norm(vec)
 
-    azimuth = np.degrees(np.arctan2(y, x))
-    elevation = np.degrees(np.arcsin(z / r))
+    azimuth = np.degrees(np.arctan2(vec[1], vec[0]))
+    elevation = np.degrees(np.arcsin(vec[2] / r))
 
     return azimuth, elevation
 
@@ -28,9 +29,23 @@ def plot_FTLE_mesh(
     final_time,
     ftle,
     direction,
-    save_path=None,
-    view_angle=None
+    save_path=None,    # str or None → if provided, save figure
+    view_angle=None    # (azimuth, elevation) or None
 ):
+    """
+    Plots the FTLE field over a mesh using PyVista, compatible with staggered arrays.
+
+    Parameters:
+        node_cons (List[np.ndarray]): Face connections for each timestep
+        node_positions (List[np.ndarray]): Node positions for each timestep
+        initial_time (int): Start time
+        final_time (int): End time
+        ftle (np.ndarray): FTLE values for mesh
+        direction (str): 'forward' or 'backward'
+        save_path (str, optional): Save path for figure
+        view_angle (tuple, optional): (azimuth, elevation) for camera
+    """
+
     scalar_bar_args = {
         "vertical": True,
         "title_font_size": 12,
@@ -58,6 +73,7 @@ def plot_FTLE_mesh(
 
     pl.add_title(f'{direction.title()} FTLE: Time {initial_time} to {final_time}')
 
+    # Handle optional user view angle
     if view_angle is not None:
         az, el = view_angle
         pl.camera.azimuth = az
@@ -67,13 +83,13 @@ def plot_FTLE_mesh(
         pl.show(screenshot=save_path)
         print(f"Figure saved to {save_path}")
     else:
-        # Initial text
-        pl.add_text("Press 'c' to print camera angles", position='upper_left',
+        # Add live view info text
+        pl.add_text("Press 'c' to print current view angle", position='upper_left',
                     font_size=10, color='white', name='cam_text')
 
-        # On key press 'c' → show azimuth/elevation
+        # Add key press event: Press 'c' to print azimuth/elevation
         def report_camera_position():
-            az, el = camera_position_to_angles(pl.camera)
+            az, el = camera_position_to_angles(pl.camera.position, pl.camera.focal_point)
             print(f'Current View → Azimuth: {az:.2f}°, Elevation: {el:.2f}°')
 
         pl.add_key_event('c', report_camera_position)
