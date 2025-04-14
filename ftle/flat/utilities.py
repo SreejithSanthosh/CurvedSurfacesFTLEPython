@@ -13,7 +13,7 @@ def interpolate(floor_data, ceiling_data, t_fraction):
 
 
 
-def plot_ftle_2d(particles, ftle):
+def plot_FTLE_2d(particles, ftle):
     plt.figure(figsize=(6, 6))
 
 
@@ -28,7 +28,7 @@ def plot_ftle_2d(particles, ftle):
 
     return None
 
-def plot_ftle_3d(particles, ftle, tol=0.01):
+def plot_FTLE_3d(particles, ftle, tol=0.01):
     """
     particles: (N, 3) array of particle positions in 3D
     ftle: (N,) array of FTLE values
