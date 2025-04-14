@@ -260,7 +260,7 @@ def FTLE_2d_dense(
 
     if plot_ftle:
         particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
-        plot_ftle_2d(particles_positions, ftle)
+        plot_FLTE_2d(particles_positions, ftle)
 
     return ftle.flatten(), trajectories
 
@@ -438,6 +438,6 @@ def FTLE_3d_dense(
 
     if plot_ftle:
         particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()], z_grid_parts.flatten()).T
-        plot_ftle_3d(particles_positions, ftle)
+        plot_FTLE_3d(particles_positions, ftle)
         
     return ftle.flatten(), trajectories
