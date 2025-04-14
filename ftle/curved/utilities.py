@@ -6,7 +6,7 @@ def camera_position_to_angles(position):
     """
     Converts camera 3D position to (azimuth, elevation) in degrees.
     """
-    x, y, z = position
+    x, y, z = position[1] - position[0]
     r = np.linalg.norm([x, y, z])
     azimuth = np.degrees(np.arctan2(y, x))
     elevation = np.degrees(np.arcsin(z / r))
