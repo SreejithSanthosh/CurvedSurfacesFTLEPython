@@ -1,6 +1,7 @@
 import numpy as np
 import pyvista as pv
 
+
 def camera_position_to_angles(position):
     """
     Converts camera 3D position to (azimuth, elevation) in degrees.
@@ -19,12 +20,9 @@ def plot_FTLE_mesh(
     final_time,
     ftle,
     direction,
-    save_path=None,        # Optional: str or None
-    view_angle=None        # Optional: tuple (azimuth, elevation)
+    save_path=None,
+    view_angle=None
 ):
-    """
-    Plots the FTLE field over a mesh using PyVista, compatible with staggered arrays.
-    """
     scalar_bar_args = {
         "vertical": True,
         "title_font_size": 12,
@@ -45,9 +43,11 @@ def plot_FTLE_mesh(
     surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
 
     pl = pv.Plotter(off_screen=save_path is not None, window_size=(1920, 1080))
+
     pl.add_mesh(surf, scalars='FTLE', cmap='jet', interpolate_before_map=True,
                 scalar_bar_args=scalar_bar_args, smooth_shading=True, show_edges=False,
                 ambient=0.5, diffuse=0.6, specular=0.3)
+
     pl.add_title(f'{direction.title()} FTLE: Time {initial_time} to {final_time}')
 
     if view_angle is not None:
@@ -58,17 +58,17 @@ def plot_FTLE_mesh(
     if save_path is not None:
         pl.show(screenshot=save_path)
         print(f"Figure saved to {save_path}")
-
     else:
-        # Add a callback to update camera angles dynamically
-        def update_camera_info():
-            az, el = camera_position_to_angles(pl.camera.position)
-            pl.add_text(f"Azimuth: {az:.1f}°, Elevation: {el:.1f}°",
-                        position='upper_left', font_size=10, color='white',
-                        name='cam_text')
+        # Initial text
+        pl.add_text("Press 'c' to print camera angles", position='upper_left',
+                    font_size=10, color='white', name='cam_text')
 
-        # Add callback before rendering every frame
-        pl.add_callback(update_camera_info, interval=100)  # ms
+        # On key press 'c' → show azimuth/elevation
+        def report_camera_position():
+            az, el = camera_position_to_angles(pl.camera.position)
+            print(f'Current View → Azimuth: {az:.2f}°, Elevation: {el:.2f}°')
+
+        pl.add_key_event('c', report_camera_position)
         pl.show()
 
     return 0
