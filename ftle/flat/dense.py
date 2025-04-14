@@ -118,7 +118,7 @@ def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, 
 
 
 
-def ftle_2d_dense(
+def FTLE_2d_dense(
     velocity_points,
     velocity_vectors,
     x_grid_parts,
@@ -266,7 +266,7 @@ def ftle_2d_dense(
 
 
 
-def ftle_3d_dense(
+def FTLE_3d_dense(
     velocity_points,
     velocity_vectors,
     x_grid_parts,
