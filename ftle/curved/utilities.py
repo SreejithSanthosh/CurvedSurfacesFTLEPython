@@ -63,8 +63,8 @@ def plot_FTLE_mesh(
 
     # Add camera angle indicator (only if not saving directly)
     if save_path is None:
-        azimuth = pl.camera.Azimuth()
-        elevation = pl.camera.Elevation()
+        azimuth = pl.camera.azimuth()
+        elevation = pl.camera.elevation()
         pl.add_text(f"Azimuth: {azimuth:.1f}°, Elevation: {elevation:.1f}°",
                     position='upper_left',
                     font_size=10,
