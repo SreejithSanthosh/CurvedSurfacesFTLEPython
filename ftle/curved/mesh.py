@@ -107,7 +107,7 @@ def FTLE_compute(node_connections_t, node_positions_t, centroids_t, initial_posi
 
 
 
-def ftle_mesh(
+def FTLE_mesh(
     node_connections,           # List[np.ndarray], each (M_t, 3)
     node_positions,             # List[np.ndarray], each (N_t, 3)
     node_velocities,            # List[np.ndarray], each (N_t, 3)
