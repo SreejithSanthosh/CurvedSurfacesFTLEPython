@@ -37,8 +37,8 @@ def plot_FTLE_mesh(
         "height": 0.7
     }
 
-    verts = node_positions
-    conns = node_cons
+    verts = node_positions[initial_time]
+    conns = node_cons[initial_time]
     faces = np.hstack([np.full((conns.shape[0], 1), 3), conns]).astype(np.int32).flatten()
 
     surf = pv.PolyData(verts, faces)
