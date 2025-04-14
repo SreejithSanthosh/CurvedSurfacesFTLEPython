@@ -4,7 +4,7 @@ import numpy as np
 from scipy.spatial import cKDTree
 from itertools import combinations
 from .advection import RK4_particle_advection
-from .utilities import plot_ftle_mesh
+from .utilities import plot_FTLE_mesh
 
 
 
