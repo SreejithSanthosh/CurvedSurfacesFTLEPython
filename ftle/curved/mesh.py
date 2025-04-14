@@ -38,14 +38,14 @@ def local_tangent_project(A, B, C, position):
 
 
 
-def FTLE_compute(node_connections_t, node_positions_t, centroids_t, initial_positions, final_positions, initial_time, final_time, neighborhood=15, lam=1e-10):
+def FTLE_compute(node_connections, node_positions, centroids, initial_positions, final_positions, initial_time, final_time, neighborhood=15, lam=1e-10):
     """
     Computes FTLE for staggered mesh data. This version supports time-dependent, non-uniform triangulations and vertex positions.
     
     Parameters:
-        node_connections_t (list of ndarray): list of (M_t, 3) arrays of node indices for each time step
-        node_positions_t (list of ndarray): list of (N_t, 3) arrays of node positions for each time step
-        centroids_t (list of ndarray): list of (M_t, 3) arrays of centroids for each time step
+        node_connections (list of ndarray): list of (M_t, 3) arrays of node indices for each time step
+        node_positions (list of ndarray): list of (N_t, 3) arrays of node positions for each time step
+        centroids (list of ndarray): list of (M_t, 3) arrays of centroids for each time step
         initial_positions (ndarray): (P, 3) array of initial particle positions
         final_positions (ndarray): (P, 3) array of final particle positions
         initial_time (int): initial time step index
@@ -59,8 +59,8 @@ def FTLE_compute(node_connections_t, node_positions_t, centroids_t, initial_posi
 
 
     position_kdtree = cKDTree(initial_positions)
-    centroid_kdtree_initial = cKDTree(centroids_t[initial_time])
-    centroid_kdtree_final = cKDTree(centroids_t[final_time])
+    centroid_kdtree_initial = cKDTree(centroids[initial_time])
+    centroid_kdtree_final = cKDTree(centroids[final_time])
     num_points = initial_positions.shape[0]
     FTLE = np.zeros(num_points)
 
@@ -69,11 +69,11 @@ def FTLE_compute(node_connections_t, node_positions_t, centroids_t, initial_posi
         _, face_idx_initial = centroid_kdtree_initial.query(initial_positions[i])
         _, face_idx_final = centroid_kdtree_final.query(final_positions[i])
 
-        face_initial = node_connections_t[initial_time][face_idx_initial]
-        face_final = node_connections_t[final_time][face_idx_final]
+        face_initial = node_connections[initial_time][face_idx_initial]
+        face_final = node_connections[final_time][face_idx_final]
 
-        pos_face_initial = node_positions_t[initial_time][face_initial]
-        pos_face_final = node_positions_t[final_time][face_final]
+        pos_face_initial = node_positions[initial_time][face_initial]
+        pos_face_final = node_positions[final_time][face_final]
 
         I_closest = initial_positions[closest_indexes[1:]]
         F_closest = final_positions[closest_indexes[1:]]
