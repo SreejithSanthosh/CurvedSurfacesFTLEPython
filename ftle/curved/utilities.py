@@ -2,16 +2,17 @@ import numpy as np
 import pyvista as pv
 
 
-def camera_position_to_angles(position):
+def camera_position_to_angles(pl):
     """
-    Converts camera 3D position to (azimuth, elevation) in degrees.
+    Compute azimuth and elevation based on view vector.
     """
-    x, y, z = position
+    view_vector = pl.camera_position[1] - pl.camera_position[0]  # focal_point - location
+    x, y, z = view_vector
     r = np.linalg.norm([x, y, z])
+
     azimuth = np.degrees(np.arctan2(y, x))
     elevation = np.degrees(np.arcsin(z / r))
     return azimuth, elevation
-
 
 def plot_FTLE_mesh(
     node_cons,
