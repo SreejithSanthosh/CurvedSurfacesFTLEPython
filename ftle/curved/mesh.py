@@ -117,8 +117,8 @@ def FTLE_mesh(
     time_steps,                 # (T,)
     direction="forward",        # "forward" or "backward"
     plot_ftle=False,            # If True, calls plot_ftle_mesh
-    save_path =None,
-    view_angle = None,
+    save_path = None,
+    camera_setup = None,
     neighborhood=15,            # For FTLE computation
     lam=1e-10                   # Regularization
 ):
