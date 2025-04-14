@@ -8,7 +8,7 @@ import pyvista as pv
 
 
 
-def plot_ftle_mesh(
+def plot_FTLE_mesh(
     node_cons,
     node_positions,
     initial_time,
