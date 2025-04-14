@@ -185,7 +185,7 @@ def FTLE_2d_sparse(
     ftle = compute_Ftle_sparse(particle_positions, trajectories[:, :, -1], initial_time, final_time, neighborhood)
 
     if plot_ftle:
-        plot_ftle_2d(particle_positions, ftle)
+        plot_FTLE_2d(particle_positions, ftle)
 
     return ftle, trajectories
 
@@ -334,7 +334,7 @@ def FTLE_3d_sparse(
     ftle = compute_Ftle_sparse(particle_positions, trajectories[:, :, -1], initial_time, final_time, neighborhood)
 
     if plot_ftle:
-        plot_ftle_3d(particle_positions, ftle)
+        plot_FTLE_3d(particle_positions, ftle)
 
     return ftle, trajectories
 
