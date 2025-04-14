@@ -1,10 +1,15 @@
-import pyvista as pv
 import numpy as np
+import pyvista as pv
 
-
-
-
-
+def camera_position_to_angles(position):
+    """
+    Converts a 3D camera position vector to azimuth and elevation angles in degrees.
+    """
+    x, y, z = position
+    r = np.linalg.norm([x, y, z])
+    azimuth = np.degrees(np.arctan2(y, x))
+    elevation = np.degrees(np.arcsin(z / r))
+    return azimuth, elevation
 
 def plot_FTLE_mesh(
     node_cons,
@@ -55,28 +60,22 @@ def plot_FTLE_mesh(
                 scalar_bar_args=scalar_bar_args, **plot_kwargs)
     pl.add_title(f'{direction.title()} FTLE: Time {initial_time} to {final_time}')
 
-    # Handle custom view angle
+    # Set custom view angle if given
     if view_angle is not None:
         az, el = view_angle
-        pl.camera.Azimuth(az)
-        pl.camera.Elevation(el)
+        pl.camera_position = 'yz'  # Reset to known orientation
+        pl.camera.azimuth = az
+        pl.camera.elevation = el
 
-    # Add camera angle indicator (only if not saving directly)
-    if save_path is None:
-        azimuth = pl.camera.azimuth()
-        elevation = pl.camera.elevation()
-        pl.add_text(f"Azimuth: {azimuth:.1f}°, Elevation: {elevation:.1f}°",
-                    position='upper_left',
-                    font_size=10,
-                    color='white')
-
+    # Show and optionally save
     if save_path is not None:
         pl.show(screenshot=save_path)
         print(f"Figure saved to {save_path}")
     else:
         pl.show()
+        cam_pos = pl.camera.position
+        azimuth, elevation = camera_position_to_angles(cam_pos)
+        print(f"Camera position: {cam_pos}")
+        print(f"Suggested view_angle = ({azimuth:.2f}, {elevation:.2f})")
 
     return 0
-
-
-
