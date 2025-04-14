@@ -60,8 +60,8 @@ def plot_FTLE_mesh(
     # Handle custom view angle
     if view_angle is not None:
         az, el = view_angle
-        pl.camera.azimuth(az)
-        pl.camera.elevation(el)
+        pl.camera.Azimuth(az)
+        pl.camera.Elevation(el)
 
     if save_path is not None:
         pl.show(screenshot=save_path)  # Save as PNG
