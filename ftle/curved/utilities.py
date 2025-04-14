@@ -66,7 +66,7 @@ def plot_FTLE_mesh(
     else:
         # Add on-screen prompt
         pl.add_text("Press 'c' to print camera state", position='upper_left',
-                    font_size=10, color='white', name='cam_text')
+                    font_size=12, color='red', name='cam_text')
 
         def report_camera_state():
             cam = pl.camera
