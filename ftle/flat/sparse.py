@@ -1,5 +1,5 @@
 
-from .utilities import plot_ftle_2d, plot_ftle_3d, interpolate
+from .utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate
 from scipy.interpolate import LinearNDInterpolator
 import numpy as np
 from scipy.spatial import cKDTree
