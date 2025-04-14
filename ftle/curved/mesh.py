@@ -117,6 +117,8 @@ def FTLE_mesh(
     time_steps,                 # (T,)
     direction="forward",        # "forward" or "backward"
     plot_ftle=False,            # If True, calls plot_ftle_mesh
+    save_path =None,
+    view_angle = None,
     neighborhood=15,            # For FTLE computation
     lam=1e-10                   # Regularization
 ):
@@ -192,6 +194,6 @@ def FTLE_mesh(
         raise RuntimeError("FTLE computation returned None")
 
     if plot_ftle:
-        plot_FTLE_mesh(node_connections, node_positions, old_it, old_ft, ftle, direction)
+        plot_FTLE_mesh(node_connections, node_positions, old_it, old_ft, ftle, direction, save_path, view_angle)
 
     return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1)
