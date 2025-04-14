@@ -63,7 +63,7 @@ def plot_FTLE_mesh(
     else:
         # Add text indicator for key press
         pl.add_text("Press 'c' to print camera position", position='upper_left',
-                    font_size=10, color='white', name='cam_text')
+                    font_size=15, color='red', name='cam_text')
 
         def report_camera_position():
             print(f'Current Camera Position: {pl.camera.position}')
