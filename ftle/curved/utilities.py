@@ -64,6 +64,7 @@ def plot_FTLE_mesh(
                     font_size=10, color='white', name='cam_text')
 
         # On key press 'c' → show azimuth/elevation
+        print("Press 'c' when in the PyVista plotting window to display the current viewing angle ")
         def report_camera_position():
             az, el = camera_position_to_angles(pl.camera.position)
             print(f'Current View → Azimuth: {az:.2f}°, Elevation: {el:.2f}°')
