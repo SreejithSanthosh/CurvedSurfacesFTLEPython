@@ -50,7 +50,7 @@ def compute_Ftle_sparse(initial_positions, final_positions, initial_time, final_
 
 
 
-def ftle_2d_sparse(
+def FTLE_2d_sparse(
     velocity_points,
     velocity_vectors,
     particle_positions,
@@ -190,7 +190,7 @@ def ftle_2d_sparse(
     return ftle, trajectories
 
 
-def ftle_3d_sparse(
+def FTLE_3d_sparse(
     velocity_points,
     velocity_vectors,
     particle_positions,
