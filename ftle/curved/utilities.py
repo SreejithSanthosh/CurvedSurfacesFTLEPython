@@ -18,7 +18,7 @@ from typing import List
 
 
 
-def plot_ftle_mesh(node_cons, node_positions, initial_time, final_time, ftle, direction):
+def plot_FTLE_mesh(node_cons, node_positions, initial_time, final_time, ftle, direction):
     """
     Plots the FTLE field over a mesh using PyVista, compatible with staggered arrays.
 
