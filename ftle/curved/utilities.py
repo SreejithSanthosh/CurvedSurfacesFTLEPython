@@ -9,8 +9,8 @@ def plot_FTLE_mesh(
     final_time,
     ftle,
     direction,
-    save_path=None,          # Optional: str or None
-    camera_position=None     # Optional: tuple (x, y, z)
+    save_path=None,           # Optional: str or None
+    camera_setup=None         # Optional: tuple (position, focal_point, roll)
 ):
     """
     Plots the FTLE field over a mesh using PyVista, compatible with staggered arrays.
@@ -23,7 +23,7 @@ def plot_FTLE_mesh(
         ftle (np.ndarray): FTLE values for plotting.
         direction (str): Advection direction: 'forward' or 'backward'.
         save_path (str, optional): If given, saves the plot as an image at this path.
-        camera_position (tuple, optional): Camera (x, y, z) position to use.
+        camera_setup (tuple, optional): (position, focal_point, roll) to fully specify camera.
     """
 
     scalar_bar_args = {
@@ -53,22 +53,29 @@ def plot_FTLE_mesh(
 
     pl.add_title(f'{direction.title()} FTLE: Time {initial_time} to {final_time}')
 
-    # Set user-provided camera position
-    if camera_position is not None:
-        pl.camera.position = camera_position
+    # Set full camera state if provided
+    if camera_setup is not None:
+        position, focal_point, roll = camera_setup
+        pl.camera.position = position
+        pl.camera.focal_point = focal_point
+        pl.camera.roll = roll
 
     if save_path is not None:
         pl.show(screenshot=save_path)
         print(f"Figure saved to {save_path}")
     else:
-        # Add text indicator for key press
-        pl.add_text("Press 'c' to print camera position", position='upper_left',
-                    font_size=15, color='red', name='cam_text')
+        # Add on-screen prompt
+        pl.add_text("Press 'c' to print camera state", position='upper_left',
+                    font_size=10, color='white', name='cam_text')
 
-        def report_camera_position():
-            print(f'Current Camera Position: {pl.camera.position}')
+        def report_camera_state():
+            cam = pl.camera
+            print("Camera Info:")
+            print(f"  position     = {tuple(np.round(cam.position, 4))}")
+            print(f"  focal_point  = {tuple(np.round(cam.focal_point, 4))}")
+            print(f"  roll         = {round(cam.roll, 2)}°")
 
-        pl.add_key_event('c', report_camera_position)
+        pl.add_key_event('c', report_camera_state)
         pl.show()
 
     return 0
