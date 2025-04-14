@@ -192,6 +192,6 @@ def FTLE_mesh(
         raise RuntimeError("FTLE computation returned None")
 
     if plot_ftle:
-        plot_ftle_mesh(node_connections, node_positions, old_it, old_ft, ftle, direction)
+        plot_FTLE_mesh(node_connections, node_positions, old_it, old_ft, ftle, direction)
 
     return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1)
