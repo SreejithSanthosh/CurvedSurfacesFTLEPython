@@ -6,8 +6,6 @@ import numpy as np
 
 
 
-
-
 def plot_FTLE_mesh(
     node_cons,
     node_positions,
@@ -60,15 +58,25 @@ def plot_FTLE_mesh(
     # Handle custom view angle
     if view_angle is not None:
         az, el = view_angle
-        pl.camera.Azimuth(az)
-        pl.camera.Elevation(el)
+        pl.camera.azimuth(az)
+        pl.camera.elevation(el)
+
+    # Add camera angle indicator (only if not saving directly)
+    if save_path is None:
+        azimuth = pl.camera.azimuth()
+        elevation = pl.camera.elevation()
+        pl.add_text(f"Azimuth: {azimuth:.1f}°, Elevation: {elevation:.1f}°",
+                    position='upper_left',
+                    font_size=10,
+                    color='white')
 
     if save_path is not None:
-        pl.show(screenshot=save_path)  # Save as PNG
+        pl.show(screenshot=save_path)
         print(f"Figure saved to {save_path}")
     else:
         pl.show()
 
     return 0
+
 
 
