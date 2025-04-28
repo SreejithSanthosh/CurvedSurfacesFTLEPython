@@ -164,6 +164,7 @@ def FTLE_mesh(
 
         print("initial_time: ", initial_time)
         print("final_time: ", final_time)
+        input("Press enter to continue" )
         
     else:
         if initial_time > final_time:
