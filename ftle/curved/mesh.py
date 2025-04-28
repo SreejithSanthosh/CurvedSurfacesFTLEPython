@@ -143,9 +143,9 @@ def FTLE_mesh(
             raise ValueError("Backward advection: initial_time must be > final_time")
 
         # Reverse data
-        node_connections = node_connections[::-1]
-        node_positions = node_positions[::-1]
-        node_velocities = -1 * node_velocities[::-1] # reverse vector field direction
+        node_connections = node_connections[:, :, ::-1]
+        node_positions = node_positions[:, :, ::-1]
+        node_velocities = -1 * node_velocities[:, :, ::-1] # reverse vector field direction
         time_steps = time_steps[::-1]
 
         # Update to reflect reversed time axis
