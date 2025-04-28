@@ -131,8 +131,8 @@ def RK4_particle_advection(
     z_traj[:, 0] = new_positions[:, 2]
     x_current, y_current, z_current = new_positions[:, 0], new_positions[:, 1], new_positions[:, 2]
 
-    for i, t_index in enumerate(time_indices[:-1]):
-        print("i??: ", i)
+    for t_index in time_indices:
+       
         print("t_index: ", t_index) 
         
         pos = np.stack([x_current, y_current, z_current], axis=1)
