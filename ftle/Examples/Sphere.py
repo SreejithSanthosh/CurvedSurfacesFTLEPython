@@ -41,7 +41,7 @@ def load_mesh_data_h5(h5_file_path):
         'total_time': total_time
     }
 
-file_path = f'mesh_data.h5'
+file_path = os.path.join(os.path.dirname(__file__), 'mesh_data.h5')
 
 mesh_data = load_mesh_data_h5(file_path)
 
