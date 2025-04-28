@@ -152,8 +152,8 @@ def FTLE_mesh(
         time_steps = time_steps[::-1]
 
         # Update to reflect reversed time axis
-        initial_time = time_length - initial_idx
-        final_time = time_length - final_idx
+        initial_time = time_length - initial_idx -1
+        final_time = time_length - final_idx -1
 
         print("old_it: ", old_it)
         print("old_ft: ", old_ft)
