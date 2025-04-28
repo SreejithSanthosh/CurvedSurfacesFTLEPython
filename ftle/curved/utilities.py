@@ -45,7 +45,7 @@ def plot_FTLE_mesh(
     surf["FTLE"] = ftle
     
     surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
-    smooth_surf = surf.subdivide(2)  # You can try 1, 2, or 3 (more = finer)
+    smooth_surf = surf.subdivide(4)  # You can try 1, 2, or 3 (more = finer)
 
     smooth_surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
 
