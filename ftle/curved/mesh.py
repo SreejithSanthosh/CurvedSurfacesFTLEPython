@@ -156,8 +156,6 @@ def FTLE_mesh(
         print("old_ft: ", old_ft)
         print("time_length: ", time_length)
         
-        print("initial_idx: ", initial_idx)
-        print("final_idx: ", final_idx)
 
         print("initial_time: ", initial_time)
         print("final_time: ", final_time)
