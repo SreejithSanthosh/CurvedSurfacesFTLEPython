@@ -53,4 +53,9 @@ final_time = 21
 particle_positions = node_positions[initial_time]
 
 
+ftle, trajectories = FTLE_mesh(node_cons, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, direction, plot_ftle=True, neighborhood=10)
+
+
+
+
 
