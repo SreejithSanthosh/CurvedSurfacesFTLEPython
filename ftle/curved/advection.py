@@ -29,8 +29,6 @@ def RK4_particle_advection(
 
     num_particles = particle_positions.shape[0]
     time_indices = list(range(initial_time, final_time ))
-    print(time_indices) 
-    input("enter")
     steps = len(time_indices) + 1
 
     x_traj = np.zeros((num_particles, steps))
@@ -54,7 +52,7 @@ def RK4_particle_advection(
             return np.stack([u, v, w], axis=1)
 
         def check_in_centroid(bary_coords):
-            return np.all((bary_coords >= 0) & (bary_coords <= 1), axis=1)
+            return np.all((bary_coords >= -0.05) & (bary_coords <= 1.05), axis=1)
 
         def project(A, B, C, P):
             normal = np.cross(B - A, C - A)
@@ -63,11 +61,11 @@ def RK4_particle_advection(
             distance = np.einsum('ij,ij->i', vector_to_plane, normal)
             return P + distance[:, None] * normal
 
-        _, indices = kdtree.query(particle_positions, k=8)
+        _, indices = kdtree.query(particle_positions, k=12)
         first_test_positions = None
         final_indices = np.full(particle_positions.shape[0], -1, dtype=int)
 
-        for attempt in range(8):
+        for attempt in range(12):
             nearest_faces = node_connections[indices[:, attempt]]
             A = node_positions[nearest_faces[:, 0]]
             B = node_positions[nearest_faces[:, 1]]
