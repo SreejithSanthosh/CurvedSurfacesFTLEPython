@@ -143,17 +143,6 @@ def FTLE_mesh(
             raise ValueError("Backward advection: initial_time must be > final_time")
 
         # Reverse data
-       # for i in range(len(node_velocities)):
-        #    for j in range(len(node_velocities[i])):
-         #       node_velocities[i][j] = node_velocities[i][j][::-1]
-          #      node_positions[i][j] = node_positions[i][j][::-1]
-           #     for k in range(len(node_velocities[i][j])):
-            #        node_velocities[i][j][k] *= -1
-                
-        #for i in range(len(node_connections)):
-        #    for j in range(len(node_connections[i])):
-         #       node_connections[i][j] = node_connections[i][j][::-1]
-                
         node_connections = node_connections[::-1]
         node_positions = node_positions[::-1]
         node_velocities = node_velocities[::-1] # reverse vector field direction
@@ -168,15 +157,6 @@ def FTLE_mesh(
         initial_time = time_length - initial_time -1
         final_time = time_length - final_time -1
 
-        print("old_it: ", old_it)
-        print("old_ft: ", old_ft)
-        print("time_length: ", time_length)
-        
-
-        print("initial_time: ", initial_time)
-        print("final_time: ", final_time)
-        input("Press enter to continue" )
-        
     else:
         if initial_time > final_time:
             raise ValueError("Forward advection: final_time must be > initial_time")
