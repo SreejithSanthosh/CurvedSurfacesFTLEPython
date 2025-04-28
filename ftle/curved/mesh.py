@@ -142,9 +142,6 @@ def FTLE_mesh(
         if initial_time < final_time:
             raise ValueError("Backward advection: initial_time must be > final_time")
 
-        initial_idx = time_steps.tolist().index(initial_time)
-        final_idx = time_steps.tolist().index(final_time)
-
         # Reverse data
         node_connections = node_connections[::-1]
         node_positions = node_positions[::-1]
@@ -169,10 +166,7 @@ def FTLE_mesh(
     else:
         if initial_time > final_time:
             raise ValueError("Forward advection: final_time must be > initial_time")
-
-        initial_time = time_steps.tolist().index(initial_time)
-        final_time = time_steps.tolist().index(final_time)
-
+            
     # Run RK4 advection
     x_traj, y_traj, z_traj, centroids = RK4_particle_advection(
         node_connections,
