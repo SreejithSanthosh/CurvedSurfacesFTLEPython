@@ -127,6 +127,7 @@ def FTLE_mesh(
     """
     old_it = initial_time
     old_ft = final_time
+    time_length = len(time_steps)
 
     direction = direction.lower()
 
@@ -150,8 +151,8 @@ def FTLE_mesh(
         time_steps = time_steps[::-1]
 
         # Update to reflect reversed time axis
-        initial_time = final_idx
-        final_time = initial_idx
+        initial_time = time_length - initial_idx
+        final_time = time_lenght - final_idx
     else:
         if initial_time > final_time:
             raise ValueError("Forward advection: final_time must be > initial_time")
