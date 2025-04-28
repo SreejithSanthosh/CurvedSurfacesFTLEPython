@@ -29,6 +29,8 @@ def RK4_particle_advection(
 
     num_particles = particle_positions.shape[0]
     time_indices = list(range(initial_time, final_time + 1))
+    print(time_indices) 
+    input("enter")
     steps = len(time_indices)
 
     x_traj = np.zeros((num_particles, steps))
