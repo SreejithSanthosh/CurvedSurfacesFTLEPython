@@ -131,8 +131,6 @@ def RK4_particle_advection(
 
     for i, t_index in enumerate(time_indices):
 
-        print("i : ", i)
-        print("t_index: ", t_index) 
         
         pos = np.stack([x_current, y_current, z_current], axis=1)
         k1 = get_velocity(pos, node_connections[t_index], node_positions[t_index], node_velocities[t_index], face_indices)
