@@ -28,7 +28,7 @@ def RK4_particle_advection(
     centroids = compute_centroids_staggered(node_connections, node_positions)
 
     num_particles = particle_positions.shape[0]
-    time_indices = list(range(initial_time, final_time + 1))
+    time_indices = list(range(initial_time, final_time ))
     print(time_indices) 
     input("enter")
     steps = len(time_indices)
