@@ -143,22 +143,27 @@ def FTLE_mesh(
             raise ValueError("Backward advection: initial_time must be > final_time")
 
         # Reverse data
+       # for i in range(len(node_velocities)):
+        #    for j in range(len(node_velocities[i])):
+         #       node_velocities[i][j] = node_velocities[i][j][::-1]
+          #      node_positions[i][j] = node_positions[i][j][::-1]
+           #     for k in range(len(node_velocities[i][j])):
+            #        node_velocities[i][j][k] *= -1
+                
+        #for i in range(len(node_connections)):
+        #    for j in range(len(node_connections[i])):
+         #       node_connections[i][j] = node_connections[i][j][::-1]
+                
+        node_connections = node_connections[::-1]
+        node_positions = node_positions[::-1]
+        node_velocities = node_velocities[::-1] # reverse vector field direction
+        time_steps = time_steps[::-1]
+        
         for i in range(len(node_velocities)):
             for j in range(len(node_velocities[i])):
-                node_velocities[i][j] = node_velocities[i][j][::-1]
-                node_positions[i][j] = node_positions[i][j][::-1]
                 for k in range(len(node_velocities[i][j])):
                     node_velocities[i][j][k] *= -1
-                
-        for i in range(len(node_connections)):
-            for j in range(len(node_connections[i])):
-                node_connections[i][j] = node_connections[i][j][::-1]
-                
-        #node_connections = node_connections[:, :, ::-1]
-        #node_positions = node_positions[:, :, ::-1]
-        #node_velocities = -1 * node_velocities[:, :, ::-1] # reverse vector field direction
-        time_steps = time_steps[::-1]
-
+                    
         # Update to reflect reversed time axis
         initial_time = time_length - initial_time -1
         final_time = time_length - final_time -1
