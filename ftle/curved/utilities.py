@@ -51,7 +51,7 @@ def plot_FTLE_mesh(
 
     pl = pv.Plotter(off_screen=save_path is not None, window_size=(1920, 1080))
 
-    pl.add_mesh(smooth_surf, scalars='FTLE', cmap='viridis', interpolate_before_map=False,
+    pl.add_mesh(smooth_surf, scalars='FTLE', cmap='cviridis', interpolate_before_map=False,
                 scalar_bar_args=scalar_bar_args, smooth_shading=False, show_edges=False,
                 ambient=0.5, diffuse=0.6, specular=0.3)
 
