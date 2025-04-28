@@ -129,6 +129,7 @@ def FTLE_mesh(
     old_ft = final_time
     time_length = len(time_steps)
 
+
     direction = direction.lower()
 
     if initial_time not in time_steps or final_time not in time_steps:
@@ -153,6 +154,17 @@ def FTLE_mesh(
         # Update to reflect reversed time axis
         initial_time = time_length - initial_idx
         final_time = time_length - final_idx
+
+        print("old_it: ", old_it)
+        print("old_ft: ", old_ft)
+        print("time_length: ", time_length)
+        
+        print("initial_idx: ", initial_idx)
+        print("final_idx: ", final_idx)
+
+        print("initial_time: ", initial_time)
+        print("final_time: ", final_time)
+        
     else:
         if initial_time > final_time:
             raise ValueError("Forward advection: final_time must be > initial_time")
