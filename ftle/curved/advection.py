@@ -157,9 +157,9 @@ def RK4_particle_advection(
             node_connections[t_index + 1], kdtree, next_positions, node_positions[t_index + 1]
         )
 
-        x_traj[:, i + 1] = new_positions[:, 0]
-        y_traj[:, i + 1] = new_positions[:, 1]
-        z_traj[:, i + 1] = new_positions[:, 2]
+        x_traj[:, t_index + 1] = new_positions[:, 0]
+        y_traj[:, t_index + 1] = new_positions[:, 1]
+        z_traj[:, t_index + 1] = new_positions[:, 2]
 
         x_current, y_current, z_current = new_positions[:, 0], new_positions[:, 1], new_positions[:, 2]
 
