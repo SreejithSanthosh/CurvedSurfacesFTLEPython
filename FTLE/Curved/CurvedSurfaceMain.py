@@ -20,7 +20,6 @@ def FTLE_mesh(
     initial_time,               # int
     final_time,                 # int
     time_steps,                 # (T)
-    direction="forward",        # "forward" or "backward"
     plot_ftle=False,            # If True, calls plot_ftle_mesh
     save_path = None,
     camera_setup = None,
@@ -134,4 +133,4 @@ def FTLE_mesh(
         final_time, save_path, camera_setup)
 
 
-    return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1)
+    return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1), isotropy, back_ftle, np.stack([back_x_traj, back_y_traj, back_z_traj], axis=-1), back_isotropy
