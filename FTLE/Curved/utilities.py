@@ -2,6 +2,97 @@ import numpy as np
 import pyvista as pv
 
 
+
+def plot_FTLE_mesh4(
+    node_cons,
+    node_positions,
+    ftle,
+    isotropy,
+    back_node_cons,
+    back_node_positions,
+    back_ftle,
+    back_isotropy,
+    initial_time,
+    final_time,
+    direction,
+    save_path=None,
+    camera_setup=None
+):
+    """
+    Plots FTLE and isotropy fields (forward and backward) over a mesh using PyVista as 2x2 subplots.
+
+    Parameters:
+        node_cons, back_node_cons: Face connectivity arrays per time step.
+        node_positions, back_node_positions: Node positions per time step.
+        ftle, isotropy, back_ftle, back_isotropy: Scalar fields for visualization.
+        initial_time, final_time: Integers for time-step labeling.
+        direction: String (not used internally for layout, passed for labeling).
+        save_path: Optional path to save screenshot.
+        camera_setup: Optional (position, focal_point, roll).
+    """
+
+    # Shared color bar settings
+    scalar_bar_args = {
+        "vertical": True,
+        "title_font_size": 10,
+        "label_font_size": 8,
+        "n_labels": 4,
+        "position_x": 0.85,
+        "position_y": 0.1,
+        "width": 0.1,
+        "height": 0.7
+    }
+
+    plotter = pv.Plotter(shape=(2, 2), window_size=(1920, 1080), off_screen=save_path is not None)
+
+    fields = [
+        ("Forward FTLE", node_positions, node_cons, ftle),
+        ("Forward Isotropy", node_positions, node_cons, isotropy),
+        ("Backward FTLE", back_node_positions, back_node_cons, back_ftle),
+        ("Backward Isotropy", back_node_positions, back_node_cons, back_isotropy)
+    ]
+
+    for idx, (title, positions, conns, field_data) in enumerate(fields):
+        verts = positions[initial_time]
+        faces = np.hstack([np.full((conns[initial_time].shape[0], 1), 3), conns[initial_time]]).astype(np.int32).flatten()
+
+        surf = pv.PolyData(verts, faces)
+        surf["field"] = field_data
+        surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
+        smooth_surf = surf.subdivide(4)
+        smooth_surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
+
+        plotter.subplot(idx // 2, idx % 2)
+        plotter.add_mesh(
+            smooth_surf,
+            scalars="field",
+            cmap="viridis",
+            scalar_bar_args=scalar_bar_args,
+            interpolate_before_map=True,
+            smooth_shading=True,
+            show_edges=False,
+            ambient=0.5,
+            diffuse=0.6,
+            specular=0.3
+        )
+        plotter.add_text(f"{title}\nTime {initial_time} to {final_time}", font_size=10)
+
+        # Optional: apply same camera setup
+        if camera_setup:
+            position, focal_point, roll = camera_setup
+            plotter.camera.position = position
+            plotter.camera.focal_point = focal_point
+            plotter.camera.roll = roll
+
+    if save_path:
+        plotter.show(screenshot=save_path)
+        print(f"Saved 2x2 FTLE visualization to {save_path}")
+    else:
+        plotter.show()
+
+    return 0
+
+
 def plot_FTLE_mesh(
     node_cons,
     node_positions,
