@@ -131,7 +131,7 @@ def FTLE_mesh(
     back_ftle,
     back_isotropy,
     initial_time,
-    final_time, "Forward", save_path, camera_setup)
+    final_time, save_path, camera_setup)
         plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, isotropy, "Forward", save_path, camera_setup)
         plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_ftle, "Backward", save_path, camera_setup)
         plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_isotropy, "Backward", save_path, camera_setup)
