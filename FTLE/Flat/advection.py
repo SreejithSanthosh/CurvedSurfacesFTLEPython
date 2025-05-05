@@ -1,5 +1,6 @@
 from scipy.interpolate import LinearNDInterpolator
 import numpy as np
+from .utilities import interpolate
 
 
 
