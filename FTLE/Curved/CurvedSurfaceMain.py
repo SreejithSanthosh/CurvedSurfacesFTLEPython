@@ -91,7 +91,7 @@ def FTLE_mesh(
 
     # Fetch the final positions of the advection for ftle computation
     final_positions = np.vstack([x_traj[:, -1], y_traj[:, -1], z_traj[:, -1]]).T
-    back_final_positions = np.vstack([back_x_traj[:, -1], back_y_traj[:, -1], back_z_traj[:. -1]]).T
+    back_final_positions = np.vstack([back_x_traj[:, -1], back_y_traj[:, -1], back_z_traj[:, -1]]).T
     
     # Compute FTLE
     ftle = FTLE_compute(
