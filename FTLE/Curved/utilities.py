@@ -48,7 +48,7 @@ def plot_FTLE_mesh4(
         ("Forward FTLE", node_positions, node_cons, ftle, initial_time, final_time),
         ("Forward Isotropy", node_positions, node_cons, isotropy, initial_time, final_time),
         ("Backward FTLE", back_node_positions, back_node_cons, back_ftle, final_time, initial_time),
-        ("Backward Isotropy", back_node_positions, back_node_cons, back_isotropy, final_time, intial_time)
+        ("Backward Isotropy", back_node_positions, back_node_cons, back_isotropy, final_time, initial_time)
     ]
 
     for idx, (title, positions, conns, field_data, i_t, f_t) in enumerate(fields):
