@@ -19,28 +19,7 @@ def plot_FTLE_mesh4(
 ):
     """
     Plots FTLE and isotropy fields (forward and backward) over a mesh using PyVista as 2x2 subplots.
-
-    Parameters:
-        node_cons, back_node_cons: Face connectivity arrays per time step.
-        node_positions, back_node_positions: Node positions per time step.
-        ftle, isotropy, back_ftle, back_isotropy: Scalar fields for visualization.
-        initial_time, final_time: Integers for time-step labeling.
-        direction: String (not used internally for layout, passed for labeling).
-        save_path: Optional path to save screenshot.
-        camera_setup: Optional (position, focal_point, roll).
     """
-
-    # Shared color bar settings
-    scalar_bar_args = {
-        "vertical": True,
-        "title_font_size": 10,
-        "label_font_size": 8,
-        "n_labels": 4,
-        "position_x": 0.85,
-        "position_y": 0.1,
-        "width": 0.1,
-        "height": 0.7
-    }
 
     plotter = pv.Plotter(shape=(2, 2), window_size=(1920, 1080), off_screen=save_path is not None)
 
@@ -52,7 +31,7 @@ def plot_FTLE_mesh4(
     ]
 
     for idx, (title, positions, conns, field_data, i_t, f_t) in enumerate(fields):
-        verts = positions[initial_time]
+        verts = positions[i_t]
         faces = np.hstack([np.full((conns[i_t].shape[0], 1), 3), conns[i_t]]).astype(np.int32).flatten()
 
         surf = pv.PolyData(verts, faces)
@@ -61,9 +40,24 @@ def plot_FTLE_mesh4(
         smooth_surf = surf.subdivide(4)
         smooth_surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
 
+        # Unique subplot
         plotter.subplot(idx // 2, idx % 2)
+
+        # Per-subplot scalar bar settings
+        scalar_bar_args = {
+            "vertical": True,
+            "title_font_size": 14,
+            "label_font_size": 14,
+            "n_labels": 5,
+            "position_x": 0.85,
+            "position_y": 0.1,
+            "width": 0.1,
+            "height": 0.7
+        }
+
         plotter.add_mesh(
             smooth_surf,
+            scalars="field",
             cmap="turbo",
             scalar_bar_args=scalar_bar_args,
             interpolate_before_map=True,
@@ -73,9 +67,9 @@ def plot_FTLE_mesh4(
             diffuse=0.6,
             specular=0.3
         )
-        plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=10)
 
-        # Optional: apply same camera setup
+        plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=12)
+
         if camera_setup:
             position, focal_point, roll = camera_setup
             plotter.camera.position = position
