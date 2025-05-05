@@ -19,7 +19,7 @@ def FTLE_mesh(
     particle_positions,         # (P, 3)
     initial_time,               # int
     final_time,                 # int
-    time_steps,                 # (T,)
+    time_steps,                 # (T)
     direction="forward",        # "forward" or "backward"
     plot_ftle=False,            # If True, calls plot_ftle_mesh
     save_path = None,
