@@ -30,7 +30,7 @@ def load_mesh_data_h5(h5_file_path):
         # Sanity check
         assert len(position) == total_time, "Mismatch in position data and time_steps"
         assert len(velocity) == total_time
-        assert len(node_cons) == total_time
+        assert len(TrianT) == total_time
 
     return {
         'TrianT': TrianT,             # list of (M_t, 3)
