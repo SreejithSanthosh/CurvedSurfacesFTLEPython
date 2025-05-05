@@ -52,9 +52,16 @@ mesh_data = load_mesh_data_h5(file_path)
 
 node_positions = mesh_data['position']
 node_velocities = mesh_data['velocity']
-time_steps = mesh_data['time_steps']
+time_steps_array = mesh_data['time_steps']
 TrianT = mesh_data['TrianT']
 
+
+"""
+If the data is not a python list it must be made into a list. In this example the 'time_steps'
+data is actually a numpy array.
+"""
+
+time_steps = time_steps_array.tolist()
 
 direction = "forward"
 initial_time = 0
