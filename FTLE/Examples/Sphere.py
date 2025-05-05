@@ -25,7 +25,7 @@ def load_mesh_data_h5(h5_file_path):
 
         position = [f["position"][k][:] for k in keys]
         velocity = [f["velocity"][k][:] for k in keys]
-        node_cons = [f["node_cons"][k][:] for k in keys]
+        TrianT = [f["TrianT"][k][:] for k in keys]
 
         # Sanity check
         assert len(position) == total_time, "Mismatch in position data and time_steps"
@@ -33,7 +33,7 @@ def load_mesh_data_h5(h5_file_path):
         assert len(node_cons) == total_time
 
     return {
-        'node_cons': node_cons,             # list of (M_t, 3)
+        'TrianT': TrianT,             # list of (M_t, 3)
         'position': position,               # list of (N_t, 3)
         'velocity': velocity,               # list of (N_t, 3)
         'time_steps': time_steps,
@@ -41,7 +41,7 @@ def load_mesh_data_h5(h5_file_path):
         'total_time': total_time
     }
 
-file_path = os.path.join(os.path.dirname(__file__), 'mesh_data.h5') # fetches the path to the example data contained within the Examples folder
+file_path = os.path.join(os.path.dirname(__file__), 'growingSphere.h5') # fetches the path to the example data contained within the Examples folder
 
 print(file_path)
 """
