@@ -63,10 +63,9 @@ data is actually a numpy array.
 
 time_steps = time_steps_array.tolist()
 
-direction = "forward"
 initial_time = 0
 final_time = 22
 particle_positions = node_positions[initial_time]
 
 
-ftle, trajectories = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, direction, plot_ftle=True, neighborhood=10)
+ftle, trajectories = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, neighborhood=10)
