@@ -60,6 +60,7 @@ def FTLE_compute(node_connections, node_positions, centroids, initial_positions,
     centroid_kdtree_final = cKDTree(centroids[final_time])
     num_points = initial_positions.shape[0]
     FTLE = np.zeros(num_points)
+    isotropy = np.zeros(num_points)
 
     for i in range(num_points - 1):
         _, closest_indexes = position_kdtree.query(initial_positions[i], neighborhood + 1)
@@ -97,5 +98,6 @@ def FTLE_compute(node_connections, node_positions, centroids, initial_positions,
         B = X @ X.T + lam * len(closest_indexes) * np.eye(2)
         DF = A @ np.linalg.inv(B)
         FTLE[i] = np.log(np.linalg.norm(DF, 2)) / abs(final_time - initial_time)
+        isotropy[i] = np.log(np.linalg.det(DF)) /abs(final_time - initial_time)
 
-    return FTLE
+    return FTLE, isotropy
