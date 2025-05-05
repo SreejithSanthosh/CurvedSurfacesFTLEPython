@@ -44,7 +44,7 @@ def plot_FTLE_mesh4(
 
         # Per-subplot scalar bar settings with unique name
         scalar_bar_args = {
-            "title": "field",
+            "title": title,
             "vertical": True,
             "title_font_size": 14,
             "label_font_size": 14,
@@ -53,7 +53,6 @@ def plot_FTLE_mesh4(
             "position_y": 0.1,
             "width": 0.1,
             "height": 0.7,
-            "name": f"scalarbar_{idx}"  # ✅ Unique name to ensure it appears
         }
 
         plotter.add_mesh(
@@ -67,7 +66,7 @@ def plot_FTLE_mesh4(
             ambient=0.5,
             diffuse=0.6,
             specular=0.3,
-            show_scalar_bar=True  # ✅ Ensures each subplot renders its own bar
+            show_scalar_bar=True  
         )
 
         plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=12)
