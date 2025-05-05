@@ -5,7 +5,7 @@ from scipy.spatial import cKDTree
 from itertools import combinations
 from .advection import RK4_particle_advection
 from .FTLECompute import FTLE_compute
-from .utilities import plot_FTLE_mesh
+from .utilities import plot_FTLE_mesh, plot_FTLE_mesh4
 
 
 
@@ -122,7 +122,16 @@ def FTLE_mesh(
         raise RuntimeError("FTLE computation returned None")
 
     if plot_ftle:
-        plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, ftle, "Forward", save_path, camera_setup)
+        plot_FTLE_mesh4(node_cons,
+    node_positions,
+    ftle,
+    isotropy,
+    back_node_cons,
+    back_node_positions,
+    back_ftle,
+    back_isotropy,
+    initial_time,
+    final_time, "Forward", save_path, camera_setup)
         plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, isotropy, "Forward", save_path, camera_setup)
         plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_ftle, "Backward", save_path, camera_setup)
         plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_isotropy, "Backward", save_path, camera_setup)
