@@ -57,7 +57,6 @@ def plot_FTLE_mesh4(
 
         plotter.add_mesh(
             smooth_surf,
-            scalars="field",
             cmap="turbo",
             scalar_bar_args=scalar_bar_args,
             interpolate_before_map=True,
@@ -65,7 +64,8 @@ def plot_FTLE_mesh4(
             show_edges=False,
             ambient=0.5,
             diffuse=0.6,
-            specular=0.3
+            specular=0.3,
+            show_scalar_bar=True
         )
 
         plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=12)
