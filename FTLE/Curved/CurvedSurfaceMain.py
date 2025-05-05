@@ -33,6 +33,8 @@ def FTLE_mesh(
     initial_time
     final_time
 
+    if initial_time >= final_time:
+        raise ValueError("Initial time must be less than final time")
 
     time_length = len(time_steps)
 
