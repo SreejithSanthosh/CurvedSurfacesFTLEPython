@@ -122,11 +122,11 @@ def FTLE_mesh(
         raise RuntimeError("FTLE computation returned None")
 
     if plot_ftle:
-        plot_FTLE_mesh4(node_cons,
+        plot_FTLE_mesh4(node_connections,
     node_positions,
     ftle,
     isotropy,
-    back_node_cons,
+    back_node_connections,
     back_node_positions,
     back_ftle,
     back_isotropy,
