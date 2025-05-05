@@ -5,7 +5,7 @@ import math
 
 
 @njit
-def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, time, index_shift=1):
+def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_time, index_shift=1):
     """
     Compute FTLE field on a uniform 2D grid using finite differences.
 
@@ -20,6 +20,7 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, time, index_shift=1)
     """
     nx, ny = x_initial.shape
     FTLE = np.full((nx, ny), np.nan)
+    isotropy = np.full((nx,ny),np.nan)
     F = np.zeros((2, 2))
 
     for i in range(index_shift, nx - index_shift):
@@ -54,16 +55,18 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, time, index_shift=1)
 
             if max_eigenvalue <= 0:
                 continue
-
+            time = np.abs(initial_time - final_time)
             FTLE[i, j] = (1 / (2 * time)) * np.log(np.sqrt(max_eigenvalue))
+            isotropy[i,j] = (1 / (2 * time)) * np.log(np.linalg(C))
 
-    return FTLE
+    return FTLE, isotropy
 
 
 @njit
-def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, time, index_shift=1):
+def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, initial_time, final_time, index_shift=1):
     nx, ny, nz = x_initial.shape
     FTLE = np.full((nx, ny, nz), np.nan)
+    isotropy[i,j] = np.full((nx,ny,nz), np.nan)
     F_right = np.zeros((3, 3))
 
     for z_index in range(index_shift, nz - index_shift):
@@ -105,7 +108,9 @@ def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, 
                 if max_eigen <= 0:
                     continue
 
-                FTLE[x_index, y_index, z_index] = (1 / (2 * time)) * np.log(np.sqrt(max_eigen))
+                time = np.abs(initial_time - final_time)
+                FTLE[x_index, y_index, z_index] = = (1 / (2 * time)) * np.log(np.sqrt(max_eigen))
+                isotropy[x_index, y_index, z_index] = (1 / (2 * time)) * np.log(np.linalg(C))
 
-    return FTLE
+    return FTLE, isotropy
 
