@@ -30,8 +30,10 @@ def FTLE_mesh(
     """
     Run a particle advection and FTLE computation on a triangulated surface (staggered mesh compatible).
     """
-    old_it = initial_time
-    old_ft = final_time
+    initial_time
+    final_time
+
+
     time_length = len(time_steps)
 
 
@@ -42,49 +44,54 @@ def FTLE_mesh(
     if initial_time == final_time:
         raise ValueError("Initial and final time steps must differ.")
 
-    # Reverse time indexing if backward
-    if direction == "backward":
-        if initial_time < final_time:
-            raise ValueError("Backward advection: initial_time must be > final_time")
+    # Find time indexes
+    initial_time_index = time_steps.index(initial_time)
+    final_time_index = time_steps.index(final_time)
 
-        # Reverse data
-        node_connections = node_connections[::-1]
-        node_positions = node_positions[::-1]
-        node_velocities = node_velocities[::-1] # reverse vector field direction
-        time_steps = time_steps[::-1]
-        
-        for i in range(len(node_velocities)):
-            for j in range(len(node_velocities[i])):
-                for k in range(len(node_velocities[i][j])):
-                    node_velocities[i][j][k] *= -1
-                    
-        # Update to reflect reversed time axis
-        initial_time = time_length - initial_time -1
-        final_time = time_length - final_time -1
-
-    else:
-        if initial_time > final_time:
-            raise ValueError("Forward advection: final_time must be > initial_time")
-            
-    # Run RK4 advection
+    # Run forward RK4 advection
     x_traj, y_traj, z_traj, centroids = RK4_particle_advection(
         node_connections,
         node_positions,
         node_velocities,
         particle_positions,
+        initial_time_index,
+        final_time_index
+    )
+   
+
+    # Reverse data for backward computation
+    back_node_connections = node_connections[::-1]
+    back_node_positions = node_positions[::-1]
+    back_node_velocities = node_velocities[::-1] # reverse vector field direction(this is the same as reversing the RK4 scheme directly)
+    back_time_steps = time_steps[::-1]
+    
+    for i in range(len(node_velocities)):
+        for j in range(len(node_velocities[i])):
+            for k in range(len(node_velocities[i][j])):
+                back_node_velocities[i][j][k] *= -1
+                
+    # Update to reflect reversed time axis
+    initial_time_index = time_length - initial_time_index -1
+    final_time_index = time_length - final_time_index -1
+
+
+     # Run forward RK4 advection
+    back_x_traj, back_y_traj, back_z_traj, back_centroids = RK4_particle_advection(
+        back_node_connections,
+        back_node_positions,
+        back_node_velocities,
+        particle_positions,
         initial_time,
         final_time
     )
-
     if x_traj is None or y_traj is None or z_traj is None:
         raise RuntimeError("Trajectory computation returned None")
 
+    # Fetch the final positions of the advection for ftle computation
     final_positions = np.vstack([x_traj[:, -1], y_traj[:, -1], z_traj[:, -1]]).T
-
+    back_final_positions = np.vstack([back_x_traj[:, -1], back_y_traj[:, -1], back_z_traj[:. -1]]).T
+    
     # Compute FTLE
-
-
-
     ftle = FTLE_compute(
         node_connections,
         node_positions,
@@ -97,10 +104,23 @@ def FTLE_mesh(
         lam
     )
 
+    back_ftle = FTLE_compute(
+        back_node_connections,
+        back_node_positions,
+        back_centroids,
+        particle_positions,
+        back_final_positions,
+        initial_time,
+        final_time,
+        neighborhood,
+        lam
+    )
+
     if ftle is None:
         raise RuntimeError("FTLE computation returned None")
 
     if plot_ftle:
-        plot_FTLE_mesh(node_connections, node_positions, old_it, old_ft, ftle, direction, save_path, camera_setup)
+        plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, ftle, "Forward", save_path, camera_setup)
+        plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_ftle, "Backward", save_path, camera_setup)
 
     return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1)
