@@ -40,11 +40,11 @@ def plot_FTLE_mesh4(
         smooth_surf = surf.subdivide(4)
         smooth_surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
 
-        # Unique subplot
         plotter.subplot(idx // 2, idx % 2)
 
-        # Per-subplot scalar bar settings
+        # Per-subplot scalar bar settings with unique name
         scalar_bar_args = {
+            "title": "field",
             "vertical": True,
             "title_font_size": 14,
             "label_font_size": 14,
@@ -52,11 +52,13 @@ def plot_FTLE_mesh4(
             "position_x": 0.85,
             "position_y": 0.1,
             "width": 0.1,
-            "height": 0.7
+            "height": 0.7,
+            "name": f"scalarbar_{idx}"  # ✅ Unique name to ensure it appears
         }
 
         plotter.add_mesh(
             smooth_surf,
+            scalars="field",
             cmap="turbo",
             scalar_bar_args=scalar_bar_args,
             interpolate_before_map=True,
@@ -65,7 +67,7 @@ def plot_FTLE_mesh4(
             ambient=0.5,
             diffuse=0.6,
             specular=0.3,
-            show_scalar_bar=True
+            show_scalar_bar=True  # ✅ Ensures each subplot renders its own bar
         )
 
         plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=12)
