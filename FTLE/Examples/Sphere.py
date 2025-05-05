@@ -43,7 +43,7 @@ def load_mesh_data_h5(h5_file_path):
 
 file_path = os.path.join(os.path.dirname(__file__), 'growingSphere.h5') # fetches the path to the example data contained within the Examples folder
 
-print(file_path)
+
 """
 Data is stored as a .h5. The load_mesh_data_h5 file is provided for loading the data but primarily for viewing 
 the expected way to store the mesh data in python for usage in coherent structure computations
