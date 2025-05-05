@@ -17,6 +17,8 @@ def plot_FTLE_2d(
     isotropy,
     back_ftle,
     back_isotropy,
+    initial_time, 
+    final_time,
     resolution=200,
     method='linear',
     save_path=None
@@ -39,10 +41,10 @@ def plot_FTLE_2d(
 
     # Interpolate each field
     fields = [
-        ("Forward FTLE", ftle),
-        ("Forward Isotropy", isotropy),
-        ("Backward FTLE", back_ftle),
-        ("Backward Isotropy", back_isotropy)
+        (f"Forward FTLE, Time: {initial_time}-{final_time}", ftle),
+        (f"Forward Isotropy, Time: {initial_time}-{final_time}", isotropy),
+        (f"Backward FTLE, Time: {final_time}-{initial_time}", back_ftle),
+        (f"Backward Isotropy, Time: {final_time}-{initial_time}", back_isotropy)
     ]
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
@@ -127,16 +129,16 @@ def plot_ftle_3d(coords, ftle, isotropy, back_ftle, back_isotropy,
     axes.append(fig.add_subplot(2, 2, 2, projection='3d'))
     axes.append(fig.add_subplot(2, 2, 3, projection='3d'))
     axes.append(fig.add_subplot(2, 2, 4, projection='3d'))
-    
+
     # Plot each scalar field as a scatter of colored points
     axes[0].scatter(Xf, Yf, Zf, c=ftle_vals, cmap='plasma', marker='.', depthshade=False)
-    axes[0].set_title("Forward FTLE")
+    axes[0].set_title(f"Forward FTLE, Time: {initial_time}-{final_time}")
     axes[1].scatter(Xf, Yf, Zf, c=iso_vals, cmap='plasma', marker='.', depthshade=False)
-    axes[1].set_title("Forward Isotropy")
+    axes[1].set_title(f"Forward Isotropy, Time: {initial_time}-{final_time}")
     axes[2].scatter(Xf, Yf, Zf, c=bftle_vals, cmap='plasma', marker='.', depthshade=False)
-    axes[2].set_title("Backward FTLE")
+    axes[2].set_title(f"Backward FTLE, Time: {final_time}-{initial_time}")
     axes[3].scatter(Xf, Yf, Zf, c=biso_vals, cmap='plasma', marker='.', depthshade=False)
-    axes[3].set_title("Backward Isotropy")
+    axes[3].set_title(f"Backward Isotropy, Time: {final_time}-{initial_time}")
     
     # Improve visualization: equal aspect ratio and no axis clutter
     for ax in axes:
@@ -152,7 +154,7 @@ def plot_ftle_3d(coords, ftle, isotropy, back_ftle, back_isotropy,
     if save_path:
         plt.savefig(save_path, dpi=300)
         plt.close(fig)
-    else:
-        plt.show()
+
+    plt.show()
 
     return None
