@@ -45,15 +45,15 @@ def plot_FTLE_mesh4(
     plotter = pv.Plotter(shape=(2, 2), window_size=(1920, 1080), off_screen=save_path is not None)
 
     fields = [
-        ("Forward FTLE", node_positions, node_cons, ftle),
-        ("Forward Isotropy", node_positions, node_cons, isotropy),
-        ("Backward FTLE", back_node_positions, back_node_cons, back_ftle),
-        ("Backward Isotropy", back_node_positions, back_node_cons, back_isotropy)
+        ("Forward FTLE", node_positions, node_cons, ftle, initial_time, final_time),
+        ("Forward Isotropy", node_positions, node_cons, isotropy, initial_time, final_time),
+        ("Backward FTLE", back_node_positions, back_node_cons, back_ftle, final_time, initial_time),
+        ("Backward Isotropy", back_node_positions, back_node_cons, back_isotropy, final_time, intial_time)
     ]
 
-    for idx, (title, positions, conns, field_data) in enumerate(fields):
+    for idx, (title, positions, conns, field_data, i_t, f_t) in enumerate(fields):
         verts = positions[initial_time]
-        faces = np.hstack([np.full((conns[initial_time].shape[0], 1), 3), conns[initial_time]]).astype(np.int32).flatten()
+        faces = np.hstack([np.full((conns[i_t].shape[0], 1), 3), conns[i_t]]).astype(np.int32).flatten()
 
         surf = pv.PolyData(verts, faces)
         surf["field"] = field_data
@@ -64,7 +64,6 @@ def plot_FTLE_mesh4(
         plotter.subplot(idx // 2, idx % 2)
         plotter.add_mesh(
             smooth_surf,
-            scalars="field",
             cmap="turbo",
             scalar_bar_args=scalar_bar_args,
             interpolate_before_map=True,
@@ -74,7 +73,7 @@ def plot_FTLE_mesh4(
             diffuse=0.6,
             specular=0.3
         )
-        plotter.add_text(f"{title}\nTime {initial_time} to {final_time}", font_size=10)
+        plotter.add_text(f"{title}\nTime {i_t} to {f_t}", font_size=10)
 
         # Optional: apply same camera setup
         if camera_setup:
