@@ -65,7 +65,7 @@ def plot_FTLE_mesh4(
         plotter.add_mesh(
             smooth_surf,
             scalars="field",
-            cmap="diverging_grk",
+            cmap="diverging_gkr",
             scalar_bar_args=scalar_bar_args,
             interpolate_before_map=True,
             smooth_shading=True,
