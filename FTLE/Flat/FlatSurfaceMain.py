@@ -16,7 +16,8 @@ def run_FTLE_2d(
     final_time,
     time_steps,
     time_indepedent=False,
-    plot_ftle=False
+    plot_ftle=False,
+    save_plot_path=None
 ):
 
     if initial_time not in time_steps or final_time not in time_steps:
@@ -36,8 +37,7 @@ def run_FTLE_2d(
     final_time_index,
     time_steps,
     "Forward",
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 )
 
     ## Backward
@@ -51,9 +51,13 @@ def run_FTLE_2d(
     initial_time_index,
     time_steps,
     "Backward",
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 )
+
+    if plot_ftle:
+        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
+        plot_FLTE_2d(particles_positions, ftle, isotropy, back_ftle, back_isotropy, initial_time, final_time, save_plot_path)
+        
 
     return ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy
 
@@ -69,7 +73,8 @@ def run_FTLE_3d(
     time_steps,
     direction,
     time_indepedent=False,
-    plot_ftle=False
+    plot_ftle=False,
+    save_plot_path=None
 ):
 
     if initial_time not in time_steps or final_time not in time_steps:
@@ -79,7 +84,6 @@ def run_FTLE_3d(
     initial_time_index = index = np.where(time_steps == initial_time)[0][0]
     final_time_index = index = np.where(time_steps == final_time)[0][0]
 
-    time_steps_index_arr = np.
 
     ## Forward
     ftle, trajectories, isotropy = FTLE_3d(
@@ -93,8 +97,7 @@ def run_FTLE_3d(
     final_time_index,
     time_steps,
     "Forward",
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 )
 
     ## Backward
@@ -109,11 +112,15 @@ def run_FTLE_3d(
     initial_time_index,
     time_steps,
     "Backward",
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 )
 
+    if plot_ftle:
+        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()], z_grid_parts.flatten()).T
+        plot_FLTE_2d(particles_positions, ftle, isotropy, back_ftle, back_isotropy, initial_time, final_time, save_plot_path)
+        
     return ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy
+
 
 
 def FTLE_2d(
@@ -126,8 +133,7 @@ def FTLE_2d(
     final_time,
     time_steps,
     direction,
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 ):
     """
     Advects a uniform grid of particles using a sparse velocity field with RK4 integration.
@@ -200,9 +206,6 @@ def FTLE_2d(
         np.abs(final_time - initial_time)
     )
 
-    if plot_ftle:
-        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
-        plot_FLTE_2d(particles_positions, ftle)
 
     return ftle.flatten(), trajectories, isotropy
 
@@ -219,8 +222,7 @@ def FTLE_3d(
     final_time,
     time_steps,
     direction,
-    time_indepedent=False,
-    plot_ftle=False
+    time_indepedent=False
 ):
     """
     Advects a uniform 3D grid of particles using a sparse or dense velocity field with RK4 integration.
@@ -303,8 +305,5 @@ def FTLE_3d(
         np.abs(final_time - initial_time)
     )
 
-    if plot_ftle:
-        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()], z_grid_parts.flatten()).T
-        plot_FTLE_3d(particles_positions, ftle)
         
     return ftle.flatten(), trajectories, isotropy
