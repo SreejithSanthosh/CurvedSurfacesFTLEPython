@@ -21,7 +21,7 @@ def plot_FTLE_2d(
     final_time,
     resolution=200,
     method='linear',
-    save_path=None
+    save_plot_path=None
 ):
     """
     Interpolates and plots 2D scalar fields (FTLE/isotropy, forward/backward) in 2x2 subplots.
@@ -60,7 +60,7 @@ def plot_FTLE_2d(
 
     plt.tight_layout()
 
-    if save_path:
+    if save_plot_path:
         plt.savefig(save_path, dpi=300)
         print(f"Plot saved to {save_path}")
 
@@ -68,7 +68,7 @@ def plot_FTLE_2d(
     return None
 
 def plot_ftle_3d(coords, ftle, isotropy, back_ftle, back_isotropy, 
-                             grid_resolution=50, save_path=None):
+                             grid_resolution=50, save_plot_path=None):
     """
     Interpolate four scalar fields (ftle, isotropy, back_ftle, back_isotropy) defined on scattered 3D points
     onto a dense 3D grid, and visualize them in a 2x2 subplot (3D scatter volume for each field).
@@ -151,7 +151,7 @@ def plot_ftle_3d(coords, ftle, isotropy, back_ftle, back_isotropy,
     plt.tight_layout()
     
     # Save or show the figure
-    if save_path:
+    if save_plot_path:
         plt.savefig(save_path, dpi=300)
         plt.close(fig)
 
