@@ -53,12 +53,12 @@ mesh_data = load_mesh_data_h5(file_path)
 node_positions = mesh_data['position']
 node_velocities = mesh_data['velocity']
 time_steps = mesh_data['time_steps']
-TrianT = mesh_data['node_cons']
+TrianT = mesh_data['TrianT']
 
 
 direction = "forward"
 initial_time = 0
-final_time = 21
+final_time = 22
 particle_positions = node_positions[initial_time]
 
 
