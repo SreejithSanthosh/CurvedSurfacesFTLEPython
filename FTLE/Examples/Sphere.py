@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # For locating your directory
 
-from ftle.curved.CurvedSurfaceMain import FTLE_mesh
-import h5py
+from ftle.curved.CurvedSurfaceMain import FTLE_mesh # The primary function used for FTLE mesh calculations
+import h5py # for .h5 files
 
 
 def load_mesh_data_h5(h5_file_path):
@@ -53,7 +53,7 @@ mesh_data = load_mesh_data_h5(file_path)
 node_positions = mesh_data['position']
 node_velocities = mesh_data['velocity']
 time_steps = mesh_data['time_steps']
-node_cons = mesh_data['node_cons']
+TrianT = mesh_data['node_cons']
 
 
 direction = "forward"
@@ -62,4 +62,4 @@ final_time = 21
 particle_positions = node_positions[initial_time]
 
 
-ftle, trajectories = FTLE_mesh(node_cons, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, direction, plot_ftle=True, neighborhood=10)
+ftle, trajectories = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, direction, plot_ftle=True, neighborhood=10)
