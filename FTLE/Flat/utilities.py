@@ -1,6 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from scipy.interpolate import griddata
 
 
 
@@ -10,60 +11,148 @@ def interpolate(floor_data, ceiling_data, t_fraction):
 
 
 
-def plot_FTLE_2d(particles, ftle):
-    plt.figure(figsize=(6, 6))
-
-
-    # Scatter plot of FTLE values with color mapping
-    sc = plt.scatter(particles[:, 0], particles[:, 1], c=ftle, cmap='plasma', s=10)
-    plt.colorbar(sc, label="FTLE Value")
-
-    plt.title("FTLE Field at Initial Positions")
-    plt.xlabel("X Position")
-    plt.ylabel("Y Position")
-    plt.show()
-
-    return None
-
-def plot_FTLE_3d(particles, ftle, tol=0.01):
+def plot_FTLE_2d(
+    particles,
+    ftle,
+    isotropy,
+    back_ftle,
+    back_isotropy,
+    resolution=200,
+    method='linear',
+    save_path=None
+):
     """
-    particles: (N, 3) array of particle positions in 3D
-    ftle: (N,) array of FTLE values
-    tol: float, tolerance for selecting slices near specific y values
+    Interpolates and plots 2D scalar fields (FTLE/isotropy, forward/backward) in 2x2 subplots.
+
+    Parameters:
+        particles (ndarray): shape (N, 2), particle positions in 2D.
+        ftle, isotropy, back_ftle, back_isotropy (ndarray): scalar values at particles.
+        resolution (int): grid resolution for interpolation.
+        method (str): interpolation method: 'linear', 'cubic', or 'nearest'.
+        save_path (str or None): if not None, path to save the plot as an image.
     """
-    y_values = particles[:, 1]
-    y_slices = [np.min(y_values), np.median(y_values), np.max(y_values)]
 
-    fig = plt.figure(figsize=(16, 10))
+    x, y = particles[:, 0], particles[:, 1]
+    xi = np.linspace(x.min(), x.max(), resolution)
+    yi = np.linspace(y.min(), y.max(), resolution)
+    X, Y = np.meshgrid(xi, yi)
 
-    # Full 3D plot (left side)
-    ax3d = fig.add_subplot(2, 2, 1, projection='3d')
-    sc = ax3d.scatter(particles[:, 0], particles[:, 1], particles[:, 2],
-                      c=ftle, cmap='plasma', s=10)
-    ax3d.set_title("Full 3D FTLE Field")
-    ax3d.set_xlabel("X")
-    ax3d.set_ylabel("Y")
-    ax3d.set_zlabel("Z")
+    # Interpolate each field
+    fields = [
+        ("Forward FTLE", ftle),
+        ("Forward Isotropy", isotropy),
+        ("Backward FTLE", back_ftle),
+        ("Backward Isotropy", back_isotropy)
+    ]
 
-    cbar = fig.colorbar(sc, ax=ax3d, shrink=0.6)
-    cbar.set_label("FTLE Value")
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
-    # Add 3 XZ slice subplots (right side)
-    for i, y_val in enumerate(y_slices):
-        ax = fig.add_subplot(2, 2, i + 2)  # Plots go into 2nd, 3rd, and 4th subplot spots
-        mask = np.abs(particles[:, 1] - y_val) < tol
-        if np.any(mask):
-            slice_particles = particles[mask]
-            slice_ftle = ftle[mask]
-            sc2 = ax.scatter(slice_particles[:, 0], slice_particles[:, 2],
-                             c=slice_ftle, cmap='plasma', s=10)
-            ax.set_title(f"XZ Slice at y ≈ {y_val:.3f}")
-            ax.set_xlabel("X")
-            ax.set_ylabel("Z")
-        else:
-            ax.set_title(f"No points found near y = {y_val:.3f}")
+    for ax, (title, field) in zip(axes.flat, fields):
+        Z = griddata(particles, field, (X, Y), method=method)
+        pcm = ax.pcolormesh(X, Y, Z, shading='auto', cmap='plasma')
+        fig.colorbar(pcm, ax=ax, label=title)
+        ax.set_title(title)
+        ax.set_xlabel("X Position")
+        ax.set_ylabel("Y Position")
+        ax.set_aspect('equal')
 
     plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, dpi=300)
+        print(f"Plot saved to {save_path}")
+
     plt.show()
+    return None
+
+def plot_ftle_3d(coords, ftle, isotropy, back_ftle, back_isotropy, 
+                             grid_resolution=50, save_path=None):
+    """
+    Interpolate four scalar fields (ftle, isotropy, back_ftle, back_isotropy) defined on scattered 3D points
+    onto a dense 3D grid, and visualize them in a 2x2 subplot (3D scatter volume for each field).
+    
+    Parameters:
+        coords : ndarray of shape (N, 3) with XYZ positions of points.
+        ftle, isotropy, back_ftle, back_isotropy : arrays of length N with scalar field values at those points.
+        grid_resolution : int or tuple(int,int,int), number of grid points along each axis (default 50).
+        save_path : string or Path, optional path to save the figure. If None, the plot is shown interactively.
+    """
+    # Ensure coords is an array
+    coords = np.array(coords)
+    x, y, z = coords[:, 0], coords[:, 1], coords[:, 2]
+    # Define grid resolution for each axis
+    if isinstance(grid_resolution, int):
+        nx = ny = nz = grid_resolution
+    else:
+        nx, ny, nz = grid_resolution
+    
+    # Create a regular grid covering the data domain
+    x_lin = np.linspace(x.min(), x.max(), nx)
+    y_lin = np.linspace(y.min(), y.max(), ny)
+    z_lin = np.linspace(z.min(), z.max(), nz)
+    Xg, Yg, Zg = np.meshgrid(x_lin, y_lin, z_lin, indexing='xy')  # 3D grid coordinates
+    
+    # Interpolate each scalar field onto the grid (linear interpolation)
+    ftle_grid = griddata((x, y, z), ftle, (Xg, Yg, Zg), method='linear')
+    iso_grid  = griddata((x, y, z), isotropy, (Xg, Yg, Zg), method='linear')
+    bftle_grid = griddata((x, y, z), back_ftle, (Xg, Yg, Zg), method='linear')
+    biso_grid  = griddata((x, y, z), back_isotropy, (Xg, Yg, Zg), method='linear')
+    
+    # Fill any NaN values by nearest-neighbor interpolation to cover full domain
+    # (This step ensures no gaps if linear interpolation misses corners or edges)
+    if np.isnan(ftle_grid).any():
+        ftle_grid_near = griddata((x, y, z), ftle, (Xg, Yg, Zg), method='nearest')
+        ftle_grid = np.where(np.isnan(ftle_grid), ftle_grid_near, ftle_grid)
+    if np.isnan(iso_grid).any():
+        iso_grid_near = griddata((x, y, z), isotropy, (Xg, Yg, Zg), method='nearest')
+        iso_grid = np.where(np.isnan(iso_grid), iso_grid_near, iso_grid)
+    if np.isnan(bftle_grid).any():
+        bftle_grid_near = griddata((x, y, z), back_ftle, (Xg, Yg, Zg), method='nearest')
+        bftle_grid = np.where(np.isnan(bftle_grid), bftle_grid_near, bftle_grid)
+    if np.isnan(biso_grid).any():
+        biso_grid_near = griddata((x, y, z), back_isotropy, (Xg, Yg, Zg), method='nearest')
+        biso_grid = np.where(np.isnan(biso_grid), biso_grid_near, biso_grid)
+    
+    # Flatten the grid points and values for plotting
+    Xf = Xg.flatten();  Yf = Yg.flatten();  Zf = Zg.flatten()
+    ftle_vals  = ftle_grid.flatten()
+    iso_vals   = iso_grid.flatten()
+    bftle_vals = bftle_grid.flatten()
+    biso_vals  = biso_grid.flatten()
+    
+    # Set up 2x2 subplots for 3D scatter plots
+    fig = plt.figure(figsize=(10, 10))
+    axes = []
+    axes.append(fig.add_subplot(2, 2, 1, projection='3d'))
+    axes.append(fig.add_subplot(2, 2, 2, projection='3d'))
+    axes.append(fig.add_subplot(2, 2, 3, projection='3d'))
+    axes.append(fig.add_subplot(2, 2, 4, projection='3d'))
+    
+    # Plot each scalar field as a scatter of colored points
+    axes[0].scatter(Xf, Yf, Zf, c=ftle_vals, cmap='plasma', marker='.', depthshade=False)
+    axes[0].set_title("Forward FTLE")
+    axes[1].scatter(Xf, Yf, Zf, c=iso_vals, cmap='plasma', marker='.', depthshade=False)
+    axes[1].set_title("Forward Isotropy")
+    axes[2].scatter(Xf, Yf, Zf, c=bftle_vals, cmap='plasma', marker='.', depthshade=False)
+    axes[2].set_title("Backward FTLE")
+    axes[3].scatter(Xf, Yf, Zf, c=biso_vals, cmap='plasma', marker='.', depthshade=False)
+    axes[3].set_title("Backward Isotropy")
+    
+    # Improve visualization: equal aspect ratio and no axis clutter
+    for ax in axes:
+        # Set equal aspect ratio for x, y, z
+        ax.set_box_aspect((1, 1, 1))
+        # Turn off the axes panes and ticks for clarity
+        ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
+        ax.grid(False)
+        # Optionally, we could also set ax.set_facecolor('black') for a dark background
+    plt.tight_layout()
+    
+    # Save or show the figure
+    if save_path:
+        plt.savefig(save_path, dpi=300)
+        plt.close(fig)
+    else:
+        plt.show()
 
     return None
