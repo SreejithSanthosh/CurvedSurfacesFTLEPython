@@ -2,7 +2,7 @@ import numpy as np
 from scipy.interpolate import LinearNDInterpolator
 from numba import njit
 import math
-from utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate
+from .utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate
 
 
 
