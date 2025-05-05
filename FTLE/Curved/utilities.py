@@ -14,12 +14,11 @@ def plot_FTLE_mesh4(
     back_isotropy,
     initial_time,
     final_time,
-    direction,
     save_path=None,
     camera_setup=None
 ):
     """
-    Plots FTLE and isotropy fields (forward and backward) over a mesh using PyVista as 2x2 subplots.
+    Plots FTLE and isotropy fields (forward and backward) over a mesh using PyVista as 1x4 subplots.
 
     Parameters:
         node_cons, back_node_cons: Face connectivity arrays per time step.
@@ -43,7 +42,7 @@ def plot_FTLE_mesh4(
         "height": 0.7
     }
 
-    plotter = pv.Plotter(shape=(2, 2), window_size=(1920, 1080), off_screen=save_path is not None)
+    plotter = pv.Plotter(shape=(1, 4), window_size=(3840, 960), off_screen=save_path is not None)
 
     fields = [
         ("Forward FTLE", node_positions, node_cons, ftle),
@@ -62,7 +61,7 @@ def plot_FTLE_mesh4(
         smooth_surf = surf.subdivide(4)
         smooth_surf.compute_normals(cell_normals=False, point_normals=True, feature_angle=45, inplace=True)
 
-        plotter.subplot(idx // 2, idx % 2)
+        plotter.subplot(0, idx)
         plotter.add_mesh(
             smooth_surf,
             scalars="field",
@@ -77,7 +76,6 @@ def plot_FTLE_mesh4(
         )
         plotter.add_text(f"{title}\nTime {initial_time} to {final_time}", font_size=10)
 
-        # Optional: apply same camera setup
         if camera_setup:
             position, focal_point, roll = camera_setup
             plotter.camera.position = position
@@ -86,7 +84,7 @@ def plot_FTLE_mesh4(
 
     if save_path:
         plotter.show(screenshot=save_path)
-        print(f"Saved 2x2 FTLE visualization to {save_path}")
+        print(f"Saved FTLE/isotropy visualization to {save_path}")
     else:
         plotter.show()
 
