@@ -1,7 +1,6 @@
 from scipy.spatial import cKDTree
 from numba import njit
 import numpy as np
-from scipy.spatial import cKDTree
 from itertools import combinations
 
 
