@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # For locating your directory
 
 from ftle.curved.CurvedSurfaceMain import FTLE_mesh
 import h5py
@@ -41,8 +41,13 @@ def load_mesh_data_h5(h5_file_path):
         'total_time': total_time
     }
 
-file_path = os.path.join(os.path.dirname(__file__), 'mesh_data.h5')
+file_path = os.path.join(os.path.dirname(__file__), 'mesh_data.h5') # fetches the path to the example data contained within the Examples folder
 
+
+"""
+Data is stored as a .h5. The load_mesh_data_h5 file is provided for loading the data but primarily for viewing 
+the expected way to store the mesh data in python for usage in coherent structure computations
+"""
 mesh_data = load_mesh_data_h5(file_path)
 
 node_positions = mesh_data['position']
