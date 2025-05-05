@@ -94,7 +94,7 @@ def FTLE_mesh(
     back_final_positions = np.vstack([back_x_traj[:, -1], back_y_traj[:, -1], back_z_traj[:, -1]]).T
     
     # Compute FTLE
-    ftle = FTLE_compute(
+    ftle, isotropy = FTLE_compute(
         node_connections,
         node_positions,
         centroids,
@@ -106,7 +106,7 @@ def FTLE_mesh(
         lam
     )
 
-    back_ftle = FTLE_compute(
+    back_ftle, back_isotropy = FTLE_compute(
         back_node_connections,
         back_node_positions,
         back_centroids,
@@ -123,6 +123,9 @@ def FTLE_mesh(
 
     if plot_ftle:
         plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, ftle, "Forward", save_path, camera_setup)
+        plot_FTLE_mesh(node_connections, node_positions, initial_time, final_time, isotropy, "Forward", save_path, camera_setup)
         plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_ftle, "Backward", save_path, camera_setup)
+        plot_FTLE_mesh(back_node_connections, back_node_positions, initial_time, final_time, back_isotropy, "Backward", save_path, camera_setup)
+        
 
     return ftle, np.stack([x_traj, y_traj, z_traj], axis=-1)
