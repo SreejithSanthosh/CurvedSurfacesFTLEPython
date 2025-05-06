@@ -36,6 +36,7 @@ def plot_FTLE_2d_scatter(
         (f"Backward Isotropy, Time: {final_time}-{initial_time}", back_isotropy)
     ]
 
+    print(ftle)
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
     for ax, (title, field) in zip(axes.flat, fields):
