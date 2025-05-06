@@ -9,7 +9,7 @@ def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_t
         return t_fraction*ceiling_data + (1-t_fraction)*floor_data
         
     # --- Time-independent advection ---
-    if time_indepedent:
+    if time_independent:
         interp_u = LinearNDInterpolator(velocity_points, velocity_vectors[:, 0], fill_value=0)
         interp_v = LinearNDInterpolator(velocity_points, velocity_vectors[:, 1], fill_value=0)
         interp_w = LinearNDInterpolator(velocity_points, velocity_vectors[:, 2], fill_value=0)
