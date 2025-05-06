@@ -175,7 +175,7 @@ def FTLE_2d(
         initial_time = final_time
         final_time = temp_initial_time
 
-        if not time_indepedent:
+        if not time_indenpedent:
             velocity_vectors = velocity_vectors[:, :, ::-1]
         dt = -dt
 
@@ -265,7 +265,7 @@ def FTLE_3d(
         initial_time = final_time
         final_time = temp_initial_time
 
-        if not time_indepedent:
+        if not time_independent:
             velocity_vectors = velocity_vectors[:, :, ::-1]
         dt = -dt
 
