@@ -23,8 +23,8 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
     isotropy = np.full((nx,ny),np.nan)
     F = np.zeros((2, 2))
 
-    for i in range(index_shift, nx - index_shift):
-        for j in range(index_shift, ny - index_shift):
+    for i in range(index_shift, nx - 1):
+        for j in range(index_shift, ny - 1):
 
             # Skip NaNs in initial positions
             if math.isnan(x_initial[i, j]) or math.isnan(y_initial[i, j]):
@@ -69,9 +69,9 @@ def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, 
     isotropy[i,j] = np.full((nx,ny,nz), np.nan)
     F_right = np.zeros((3, 3))
 
-    for z_index in range(index_shift, nz - index_shift):
-        for x_index in range(index_shift, nx - index_shift):
-            for y_index in range(index_shift, ny - index_shift):
+    for z_index in range(index_shift, nz - 1):
+        for x_index in range(index_shift, nx - 1):
+            for y_index in range(index_shift, ny - 1):
 
                 if math.isnan(x_initial[x_index, y_index, z_index]) or math.isnan(y_initial[x_index, y_index, z_index]):
                     continue
