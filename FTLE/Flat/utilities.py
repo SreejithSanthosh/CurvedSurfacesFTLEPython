@@ -34,7 +34,7 @@ def plot_FTLE_2d(
         method (str): interpolation method: 'linear', 'cubic', or 'nearest'.
         save_path (str or None): if not None, path to save the plot as an image.
     """
-
+    print(resolution)
     x, y = particles[:, 0], particles[:, 1]
 
     xi = np.linspace(x.min(), x.max(), int(resolution))
