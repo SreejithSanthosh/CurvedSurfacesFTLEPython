@@ -56,7 +56,7 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
                 continue
             time = np.abs(initial_time - final_time)
             FTLE[i, j] = (1 / (2 * time)) * np.log(np.sqrt(max_eigenvalue))
-            isotropy[i,j] = (1 / (2 * time)) * np.log(np.linalg(C))
+            isotropy[i,j] = (1 / (2 * time)) * np.log(np.linalg.det(C))
 
     return FTLE, isotropy
 
@@ -109,7 +109,7 @@ def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, 
 
                 time = np.abs(initial_time - final_time)
                 FTLE[x_index, y_index, z_index] = (1 / (2 * time)) * np.log(np.sqrt(max_eigen))
-                isotropy[x_index, y_index, z_index] = (1 / (2 * time)) * np.log(np.linalg(C))
+                isotropy[x_index, y_index, z_index] = (1 / (2 * time)) * np.log(np.linalg.det(C))
 
     return FTLE, isotropy
 
