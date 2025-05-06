@@ -1,6 +1,6 @@
 import numpy as np
 from FTLE.Flat.FTLECompute import FTLE_2d_compute, FTLE_3d_compute
-from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate  
+from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate, plot_FTLE_2d_scatter
 from FTLE.Flat.advection import RK4_advection_2d, RK4_advection_3d
 
 
@@ -55,7 +55,8 @@ def run_FTLE_2d(
 )
 
     if plot_ftle:
-        plot_FTLE_2d(x_grid_parts, y_grid_parts, ftle, isotropy, back_ftle, back_isotropy, initial_time, final_time, save_plot_path=save_plot_path)
+        particles = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
+        plot_FTLE_2d_scatter(x_grid_parts, y_grid_parts, ftle, isotropy, back_ftle, back_isotropy, initial_time, final_time, save_plot_path=save_plot_path)
         
 
     return ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy
