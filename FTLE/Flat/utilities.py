@@ -34,7 +34,7 @@ def plot_FTLE_2d(
         method (str): interpolation method: 'linear', 'cubic', or 'nearest'.
         save_path (str or None): if not None, path to save the plot as an image.
     """
-    print(resolution)
+    
     x, y = particles[:, 0], particles[:, 1]
 
     xi = np.linspace(x.min(), x.max(), int(resolution))
@@ -51,6 +51,10 @@ def plot_FTLE_2d(
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
+    print(len(ftle))
+    print(ftle.shape)
+    print(len(particle_positions))
+    print(particle_positions.shape)
     for ax, (title, field) in zip(axes.flat, fields):
         Z = griddata(particles, field, (X, Y), method=method)
         pcm = ax.pcolormesh(X, Y, Z, shading='auto', cmap='plasma')
