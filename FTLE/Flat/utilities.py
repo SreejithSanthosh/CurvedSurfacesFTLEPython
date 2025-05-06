@@ -36,6 +36,8 @@ def plot_FTLE_2d(
     """
 
     x, y = particles[:, 0], particles[:, 1]
+    print(x)
+    print(y)
     xi = np.linspace(x.min(), x.max(), resolution)
     yi = np.linspace(y.min(), y.max(), resolution)
     X, Y = np.meshgrid(xi, yi)
