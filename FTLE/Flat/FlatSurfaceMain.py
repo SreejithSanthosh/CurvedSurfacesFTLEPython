@@ -203,8 +203,8 @@ def FTLE_2d(
     y_traj = trajectories[:, 1, :].reshape(y_dim1, y_dim2, fine_time_length)
 
     ftle, isotropy = FTLE_2d_compute(
-        x_grid_parts.T, y_grid_parts.T,
-        x_traj[:, :, -1].T, y_traj[:, :, -1].T,
+        x_grid_parts, y_grid_parts,
+        x_traj[:, :, -1], y_traj[:, :, -1],
         initial_time,
         final_time
     )
