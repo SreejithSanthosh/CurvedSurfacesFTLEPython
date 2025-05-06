@@ -14,10 +14,14 @@ with h5py.File(file_path, 'r') as f:
     time_steps = f['time_steps'][:]                  # shape (T,)
 
 # --- Define 3D grid for initial particle positions (must be inside the domain) ---
-x = np.linspace(0, 2*np.pi, 30)
-y = np.linspace(0, 2*np.pi, 30)
-z = np.linspace(0, 2*np.pi, 30)
+x = np.linspace(0, 2*np.pi, 10)
+y = np.linspace(0, 2*np.pi, 10)
+z = np.linspace(0, 2*np.pi, 10)
 X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+
+X = X.T
+Y = Y.T
+Z = Z.T
 
 # --- FTLE parameters ---
 initial_time = time_steps[0]
