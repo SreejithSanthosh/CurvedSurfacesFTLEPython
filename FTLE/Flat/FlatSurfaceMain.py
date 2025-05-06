@@ -208,7 +208,7 @@ def FTLE_2d(
     )
 
 
-    return ftle.flatten(), trajectories, isotropy
+    return ftle, trajectories, isotropy
 
 
 
@@ -308,4 +308,4 @@ def FTLE_3d(
     )
 
         
-    return ftle.flatten(), trajectories, isotropy
+    return ftle, trajectories, isotropy
