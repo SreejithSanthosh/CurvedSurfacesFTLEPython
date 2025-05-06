@@ -203,7 +203,8 @@ def FTLE_2d(
     ftle, isotropy = FTLE_2d_compute(
         x_grid_parts, y_grid_parts,
         x_traj[:, :, -1], y_traj[:, :, -1],
-        np.abs(final_time - initial_time)
+        initial_time,
+        final_time
     )
 
 
@@ -302,7 +303,8 @@ def FTLE_3d(
     ftle, isotropy = FTLE_3d_compute(
         x_grid_parts, y_grid_parts, z_grid_parts,
         x_traj[:, :, :, -1], y_traj[:, :, :, -1], z_traj[:, :, :, -1],
-        np.abs(final_time - initial_time)
+        initial_time,
+        final_time
     )
 
         
