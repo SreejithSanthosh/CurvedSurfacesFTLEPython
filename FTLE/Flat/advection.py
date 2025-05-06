@@ -1,6 +1,6 @@
 from scipy.interpolate import LinearNDInterpolator
 import numpy as np
-from .utilities import interpolate
+from FTLE.Flat.utilities import interpolate
 
 
 
