@@ -47,7 +47,7 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
 
             if np.isnan(C).any() or np.isinf(C).any():
                 continue
-
+            print(C)
             # Maximum eigenvalue of C
             eigenvalues = np.linalg.eigvalsh(C)
             max_eigenvalue = np.max(eigenvalues)
