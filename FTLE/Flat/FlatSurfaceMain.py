@@ -15,7 +15,7 @@ def run_FTLE_2d(
     initial_time,
     final_time,
     time_steps,
-    time_indepedent=False,
+    time_independent=False,
     plot_ftle=False,
     save_plot_path=None
 ):
@@ -37,7 +37,7 @@ def run_FTLE_2d(
     final_time_index,
     time_steps,
     "Forward",
-    time_indepedent=False
+    time_independent=False
 )
 
     ## Backward
@@ -51,7 +51,7 @@ def run_FTLE_2d(
     initial_time_index,
     time_steps,
     "Backward",
-    time_indepedent=False
+    time_independent=False
 )
 
     if plot_ftle:
@@ -72,7 +72,7 @@ def run_FTLE_3d(
     final_time,
     time_steps,
     direction,
-    time_indepedent=False,
+    time_independent=False,
     plot_ftle=False,
     save_plot_path=None
 ):
@@ -97,7 +97,7 @@ def run_FTLE_3d(
     final_time_index,
     time_steps,
     "Forward",
-    time_indepedent=False
+    time_independent=False
 )
 
     ## Backward
@@ -112,7 +112,7 @@ def run_FTLE_3d(
     initial_time_index,
     time_steps,
     "Backward",
-    time_indepedent=False
+    time_independent=False
 )
 
     if plot_ftle:
@@ -133,7 +133,7 @@ def FTLE_2d(
     final_time,
     time_steps,
     direction,
-    time_indepedent=False
+    time_independent=False
 ):
     """
     Advects a uniform grid of particles using a sparse velocity field with RK4 integration.
@@ -222,7 +222,7 @@ def FTLE_3d(
     final_time,
     time_steps,
     direction,
-    time_indepedent=False
+    time_independent=False
 ):
     """
     Advects a uniform 3D grid of particles using a sparse or dense velocity field with RK4 integration.
