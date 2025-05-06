@@ -14,14 +14,14 @@ with h5py.File(file_path, 'r') as f:
     time_steps = f['time_steps'][:]                  # shape (T,)
 
 # --- Define 2D grid for particle seeding (must be inside domain) ---
-x = np.linspace(0, 20, 30)
-y = np.linspace(-3, 3, 30)
+x = np.linspace(0, 20, 10)
+y = np.linspace(-3, 3, 10)
 X, Y = np.meshgrid(x, y)
 
 # --- FTLE parameters ---
 initial_time = time_steps[0]
 final_time = time_steps[-1]
-dt = 0.5
+dt = 1
 
 # --- Run FTLE computation ---
 ftle, traj, iso, bftle, btraj, biso = run_FTLE_2d(
