@@ -26,15 +26,15 @@ dt = 0.2
 
 # --- Run FTLE computation (with plotting enabled) ---
 ftle, traj, iso, bftle, btraj, biso = run_FTLE_3d(
-    velocity_points=velocity_points,
-    velocity_vectors=velocity_vectors,
-    x_grid_parts=X,
-    y_grid_parts=Y,
-    z_grid_parts=Z,
-    dt=dt,
-    initial_time=initial_time,
-    final_time=final_time,
-    time_steps=time_steps,
+    velocity_points,
+    velocity_vectors,
+    X,
+    Y,
+    Z,
+    dt,
+    initial_time,
+    final_time,
+    time_steps,
     plot_ftle=True,
     save_plot_path=None  # or a path like 'abc_ftle_output.png'
 )
