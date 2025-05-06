@@ -12,8 +12,9 @@ def interpolate(floor_data, ceiling_data, t_fraction):
 
 
 
-def plot_FTLE_2d(
-    particles,
+def plot_FTLE_2d_fixed(
+    x_grid_parts,
+    y_grid_parts,
     ftle,
     isotropy,
     back_ftle,
@@ -28,20 +29,22 @@ def plot_FTLE_2d(
     Interpolates and plots 2D scalar fields (FTLE/isotropy, forward/backward) in 2x2 subplots.
 
     Parameters:
-        particles (ndarray): shape (N, 2), particle positions in 2D.
-        ftle, isotropy, back_ftle, back_isotropy (ndarray): scalar values at particles.
+        x_grid_parts, y_grid_parts (ndarray): original 2D meshgrid arrays of particle positions.
+        ftle, isotropy, back_ftle, back_isotropy (ndarray): flattened scalar field values.
         resolution (int): grid resolution for interpolation.
         method (str): interpolation method: 'linear', 'cubic', or 'nearest'.
-        save_path (str or None): if not None, path to save the plot as an image.
+        save_plot_path (str or None): if not None, path to save the plot as an image.
     """
-    
+
+    # Flatten the grid positions to match the field values
+    particles = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
+
     x, y = particles[:, 0], particles[:, 1]
 
     xi = np.linspace(x.min(), x.max(), int(resolution))
     yi = np.linspace(y.min(), y.max(), int(resolution))
     X, Y = np.meshgrid(xi, yi)
 
-    # Interpolate each field
     fields = [
         (f"Forward FTLE, Time: {initial_time}-{final_time}", ftle),
         (f"Forward Isotropy, Time: {initial_time}-{final_time}", isotropy),
@@ -51,10 +54,6 @@ def plot_FTLE_2d(
 
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
-    print(len(ftle))
-    print(ftle.shape)
-    print(len(particles))
-    print(particles.shape)
     for ax, (title, field) in zip(axes.flat, fields):
         Z = griddata(particles, field, (X, Y), method=method)
         pcm = ax.pcolormesh(X, Y, Z, shading='auto', cmap='plasma')
@@ -67,8 +66,8 @@ def plot_FTLE_2d(
     plt.tight_layout()
 
     if save_plot_path:
-        plt.savefig(save_path, dpi=300)
-        print(f"Plot saved to {save_path}")
+        plt.savefig(save_plot_path, dpi=300)
+        print(f"Plot saved to {save_plot_path}")
 
     plt.show()
     return None
