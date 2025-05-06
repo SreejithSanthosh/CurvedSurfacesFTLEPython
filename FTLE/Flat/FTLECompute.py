@@ -32,10 +32,9 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
             dx = x_initial[i + 1, j] - x_initial[i - 1, j]
             dy = y_initial[i, j + 1] - y_initial[i, j - 1]
 
-            print(dx)
-            print(dy)
 
             if dx == 0 or dy == 0:
+                print("Zero differential")
                 continue
 
             # Compute finite difference deformation gradient ∂Xf/∂X0
@@ -48,8 +47,9 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
             C = F.T @ F
 
             if np.isnan(C).any() or np.isinf(C).any():
+                print("Nan Value")
                 continue
-            print(C)
+
             # Maximum eigenvalue of C
             eigenvalues = np.linalg.eigvalsh(C)
             max_eigenvalue = np.max(eigenvalues)
