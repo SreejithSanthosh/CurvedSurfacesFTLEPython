@@ -32,6 +32,9 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
             dx = x_initial[i + 1, j] - x_initial[i - 1, j]
             dy = y_initial[i, j + 1] - y_initial[i, j - 1]
 
+            print(dx)
+            print(dy)
+
             if dx == 0 or dy == 0:
                 continue
 
