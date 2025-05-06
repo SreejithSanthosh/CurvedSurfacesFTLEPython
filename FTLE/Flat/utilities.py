@@ -12,7 +12,7 @@ def interpolate(floor_data, ceiling_data, t_fraction):
 
 
 
-def plot_FTLE_2d_fixed(
+def plot_FTLE_2d(
     x_grid_parts,
     y_grid_parts,
     ftle,
