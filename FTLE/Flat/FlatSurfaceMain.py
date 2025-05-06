@@ -196,8 +196,6 @@ def FTLE_2d(
 
     trajectories = RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent)
 
-    print("Trajectories: ")
-    print(trajectories)
     # --- Compute FTLE from reshaped results ---
     x_traj = trajectories[:, 0, :].reshape(x_dim1, x_dim2, fine_time_length)
     y_traj = trajectories[:, 1, :].reshape(y_dim1, y_dim2, fine_time_length)
