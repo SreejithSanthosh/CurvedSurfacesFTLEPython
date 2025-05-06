@@ -1,12 +1,10 @@
 import numpy as np
-from numba import njit
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.interpolate import griddata
 
 
 
-@njit
 def interpolate(floor_data, ceiling_data, t_fraction):
     return t_fraction*ceiling_data + (1-t_fraction)*floor_data
 
