@@ -71,7 +71,6 @@ def run_FTLE_3d(
     initial_time,
     final_time,
     time_steps,
-    direction,
     time_independent=False,
     plot_ftle=False,
     save_plot_path=None
@@ -96,7 +95,6 @@ def run_FTLE_3d(
     initial_time_index,
     final_time_index,
     time_steps,
-    "Forward",
     time_independent
 )
 
@@ -111,7 +109,6 @@ def run_FTLE_3d(
     final_time_index,
     initial_time_index,
     time_steps,
-    "Backward",
     time_independent
 )
 
@@ -222,7 +219,6 @@ def FTLE_3d(
     initial_time,
     final_time,
     time_steps,
-    direction,
     time_independent=False
 ):
     """
