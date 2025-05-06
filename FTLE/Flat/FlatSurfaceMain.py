@@ -1,7 +1,7 @@
 import numpy as np
-from .FTLECompute import FTLE_2d_compute, FTLE_3d_compute
-from .utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate
-from .advection import RK4_advection_2d, RK4_advection_3d
+from FTLE.Flat.FTLECompute import FTLE_2d_compute, FTLE_3d_compute
+from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate  
+from FTLE.Flat.advection import RK4_advection_2d, RK4_advection_3d
 
 
 
