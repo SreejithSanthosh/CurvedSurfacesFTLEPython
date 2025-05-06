@@ -53,8 +53,8 @@ def plot_FTLE_2d(
 
     print(len(ftle))
     print(ftle.shape)
-    print(len(particle_positions))
-    print(particle_positions.shape)
+    print(len(particles))
+    print(particles.shape)
     for ax, (title, field) in zip(axes.flat, fields):
         Z = griddata(particles, field, (X, Y), method=method)
         pcm = ax.pcolormesh(X, Y, Z, shading='auto', cmap='plasma')
