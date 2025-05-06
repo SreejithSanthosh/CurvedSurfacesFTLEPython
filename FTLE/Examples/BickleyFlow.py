@@ -25,14 +25,14 @@ dt = 0.2
 
 # --- Run FTLE computation ---
 ftle, traj, iso, bftle, btraj, biso = run_FTLE_2d(
-    velocity_points=velocity_points,
-    velocity_vectors=velocity_vectors,
-    x_grid_parts=X,
-    y_grid_parts=Y,
-    dt=dt,
-    initial_time=initial_time,
-    final_time=final_time,
-    time_steps=time_steps,
+    velocity_points,
+    velocity_vectors,
+    X,
+    Y,
+    dt,
+    initial_time,
+    final_time,
+    time_steps,
     plot_ftle=True,
     save_plot_path=None  # or provide a path like 'bickley_ftle_output.png'
 )
