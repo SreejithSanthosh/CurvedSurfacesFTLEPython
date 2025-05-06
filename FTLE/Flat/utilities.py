@@ -36,10 +36,9 @@ def plot_FTLE_2d(
     """
 
     x, y = particles[:, 0], particles[:, 1]
-    print(x)
-    print(y)
-    xi = np.linspace(x.min(), x.max(), resolution)
-    yi = np.linspace(y.min(), y.max(), resolution)
+
+    xi = np.linspace(x.min(), x.max(), int(resolution))
+    yi = np.linspace(y.min(), y.max(), int(resolution))
     X, Y = np.meshgrid(xi, yi)
 
     # Interpolate each field
@@ -92,9 +91,9 @@ def plot_FTLE_3d(coords, ftle, isotropy, back_ftle, back_isotropy,
         nx, ny, nz = grid_resolution
     
     # Create a regular grid covering the data domain
-    x_lin = np.linspace(x.min(), x.max(), nx)
-    y_lin = np.linspace(y.min(), y.max(), ny)
-    z_lin = np.linspace(z.min(), z.max(), nz)
+    x_lin = np.linspace(x.min(), x.max(), int(nx))
+    y_lin = np.linspace(y.min(), y.max(), int(ny))
+    z_lin = np.linspace(z.min(), z.max(), int(nz))
     Xg, Yg, Zg = np.meshgrid(x_lin, y_lin, z_lin, indexing='xy')  # 3D grid coordinates
     
     # Interpolate each scalar field onto the grid (linear interpolation)
