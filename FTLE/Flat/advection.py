@@ -1,11 +1,13 @@
 from scipy.interpolate import LinearNDInterpolator
 import numpy as np
-from FTLE.Flat.utilities import interpolate
 
 
 
 def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent):
-
+    
+    def interpolate(floor_data, ceiling_data, t_fraction):
+        return t_fraction*ceiling_data + (1-t_fraction)*floor_data
+        
     # --- Time-independent advection ---
     if time_indepedent:
         interp_u = LinearNDInterpolator(velocity_points, velocity_vectors[:, 0], fill_value=0)
@@ -89,6 +91,9 @@ def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_t
 
 def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent):
 
+    def interpolate(floor_data, ceiling_data, t_fraction):
+        return t_fraction*ceiling_data + (1-t_fraction)*floor_data
+        
     if time_independent:
         interp_u = LinearNDInterpolator(velocity_points, velocity_vectors[:, 0], fill_value=0)
         interp_v = LinearNDInterpolator(velocity_points, velocity_vectors[:, 1], fill_value=0)
