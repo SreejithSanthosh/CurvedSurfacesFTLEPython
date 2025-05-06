@@ -5,7 +5,7 @@ import math
 
 
 @njit
-def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_time, index_shift=1):
+def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_time):
     """
     Compute FTLE field on a uniform 2D grid using finite differences.
 
@@ -63,7 +63,7 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
 
 
 @njit
-def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, initial_time, final_time, index_shift=1):
+def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, initial_time, final_time):
     nx, ny, nz = x_initial.shape
     FTLE = np.full((nx, ny, nz), np.nan)
     isotropy[i,j] = np.full((nx,ny,nz), np.nan)
