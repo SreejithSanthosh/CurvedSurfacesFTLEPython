@@ -18,6 +18,10 @@ x = np.linspace(0, 20, 10)
 y = np.linspace(-3, 3, 10)
 X, Y = np.meshgrid(x, y)
 
+# Swap the rows and columns
+X = X.T
+Y = Y.T
+
 # --- FTLE parameters ---
 initial_time = time_steps[0]
 final_time = time_steps[-1]
