@@ -68,4 +68,4 @@ final_time = 22
 particle_positions = node_positions[initial_time]
 
 
-ftle, trajectories = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, neighborhood=10)
+ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, neighborhood=10)
