@@ -38,8 +38,6 @@ def FTLE_mesh(
     time_length = len(time_steps)
 
 
-    direction = direction.lower()
-
     if initial_time not in time_steps or final_time not in time_steps:
         raise ValueError("Initial and final times must be in `time_steps`.")
     if initial_time == final_time:
