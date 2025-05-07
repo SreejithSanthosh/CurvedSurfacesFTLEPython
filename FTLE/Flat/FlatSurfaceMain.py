@@ -115,7 +115,7 @@ def run_FTLE_3d(
 )
 
     if plot_ftle:
-        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()], z_grid_parts.flatten()]).T
+        particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten(), z_grid_parts.flatten()]).T
         plot_FTLE_3d(particles_positions, ftle, isotropy, back_ftle, back_isotropy, initial_time, final_time, save_plot_path=save_plot_path)
         
     return ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy
