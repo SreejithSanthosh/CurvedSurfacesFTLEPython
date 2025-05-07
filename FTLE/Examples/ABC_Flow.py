@@ -14,9 +14,9 @@ with h5py.File(file_path, 'r') as f:
     time_steps = f['time_steps'][:]                  # shape (T,)
 
 # --- Define 3D grid for initial particle positions (must be inside the domain) ---
-x = np.linspace(0, 2*np.pi, 10)
-y = np.linspace(0, 2*np.pi, 10)
-z = np.linspace(0, 2*np.pi, 10)
+x = np.linspace(0, 2*np.pi, 2)
+y = np.linspace(0, 2*np.pi, 2)
+z = np.linspace(0, 2*np.pi, 2)
 X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
 X = X.T
@@ -26,7 +26,7 @@ Z = Z.T
 # --- FTLE parameters ---
 initial_time = time_steps[0]
 final_time = time_steps[-1]
-dt = 0.2
+dt = 1
 
 # --- Run FTLE computation (with plotting enabled) ---
 ftle, traj, iso, bftle, btraj, biso = run_FTLE_3d(
