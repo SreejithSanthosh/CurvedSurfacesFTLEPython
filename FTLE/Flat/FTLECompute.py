@@ -67,7 +67,7 @@ def FTLE_2d_compute(x_initial, y_initial, x_final, y_final, initial_time, final_
 def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, initial_time, final_time):
     nx, ny, nz = x_initial.shape
     FTLE = np.full((nx, ny, nz), np.nan)
-    isotropy[i,j] = np.full((nx,ny,nz), np.nan)
+    isotropy = np.full((nx,ny,nz), np.nan)
     F_right = np.zeros((3, 3))
 
     for z_index in range(1, nz - 1):
