@@ -54,14 +54,16 @@ def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_t
             t_fraction = t - t_floor  
 
             # Interpolate velocity field in time
+            print("Interpolate")
             u_interp = interpolate(velocity_vectors[:, 0, t_floor], velocity_vectors[:, 0, t_ceiling], t_fraction)
             v_interp = interpolate(velocity_vectors[:, 1, t_floor], velocity_vectors[:, 1, t_ceiling], t_fraction)
             w_interp = interpolate(velocity_vectors[:, 2, t_floor], velocity_vectors[:, 2, t_ceiling], t_fraction)
 
+            print("LinearNDInterpolator")
             interp_u = LinearNDInterpolator(velocity_points, u_interp, fill_value=0)
             interp_v = LinearNDInterpolator(velocity_points, v_interp, fill_value=0)
             interp_w = LinearNDInterpolator(velocity_points, w_interp, fill_value=0)
-
+            print("LinNDIter done")
             x_curr = trajectories[:, 0, t_index]
             y_curr = trajectories[:, 1, t_index]
             z_curr = trajectories[:, 2, t_index]
