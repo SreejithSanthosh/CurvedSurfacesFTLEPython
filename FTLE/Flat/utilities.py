@@ -116,7 +116,7 @@ def plot_FTLE_2d(
     plt.show()
     return None
 
-def plot_FTLE_3d(coords, ftle, isotropy, back_ftle, back_isotropy, 
+def plot_FTLE_3d(coords, ftle, isotropy, back_ftle, back_isotropy, initial_time,final_time,
                              grid_resolution=50, save_plot_path=None):
     """
     Interpolate four scalar fields (ftle, isotropy, back_ftle, back_isotropy) defined on scattered 3D points
