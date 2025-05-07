@@ -131,12 +131,10 @@ def plot_FTLE_3d(coords, ftle, isotropy, back_ftle, back_isotropy,
     # Ensure coords is an array
     coords = np.array(coords)
     x, y, z = coords[:, 0], coords[:, 1], coords[:, 2]
-    # Define grid resolution for each axis
-    if isinstance(grid_resolution, int):
-        nx = ny = nz = grid_resolution
-    else:
-        nx, ny, nz = grid_resolution
-    
+
+    nx = ny = nz = grid_resolution
+
+
     # Create a regular grid covering the data domain
     x_lin = np.linspace(x.min(), x.max(), int(nx))
     y_lin = np.linspace(y.min(), y.max(), int(ny))
