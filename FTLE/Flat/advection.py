@@ -1,5 +1,4 @@
 from scipy.interpolate import LinearNDInterpolator
-from scipy.interpolate import RegularGridInterpolator
 import numpy as np
 
 
