@@ -6,7 +6,7 @@ from FTLE.Flat.FlatSurfaceMain import run_FTLE_3d  # Primary FTLE computation
 import h5py
 import numpy as np
 
-print("running file")
+
 # --- Load the ABC flow data ---
 file_path = os.path.join(os.path.dirname(__file__), 'abc_flow_data.h5')
 with h5py.File(file_path, 'r') as f:
@@ -14,11 +14,10 @@ with h5py.File(file_path, 'r') as f:
     velocity_vectors = f['vectors'][:]               # shape (M, 3, T)
     time_steps = f['time_steps'][:]                  # shape (T,)
 
-print("Loading data done")
 # --- Define 3D grid for initial particle positions (must be inside the domain) ---
-x = np.linspace(0, 2*np.pi, 2)
-y = np.linspace(0, 2*np.pi, 2)
-z = np.linspace(0, 2*np.pi, 2)
+x = np.linspace(0, 2*np.pi, 10)
+y = np.linspace(0, 2*np.pi, 10)
+z = np.linspace(0, 2*np.pi, 10)
 X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
 X = X.T
@@ -27,7 +26,7 @@ Z = Z.T
 
 # --- FTLE parameters ---
 initial_time = time_steps[0]
-final_time = time_steps[-1]
+final_time = 4
 dt = 1
 
 # --- Run FTLE computation (with plotting enabled) ---
@@ -44,3 +43,5 @@ ftle, traj, iso, bftle, btraj, biso = run_FTLE_3d(
     plot_ftle=True,
     save_plot_path=None  # or a path like 'abc_ftle_output.png'
 )
+
+
