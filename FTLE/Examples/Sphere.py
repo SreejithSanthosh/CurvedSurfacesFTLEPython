@@ -74,7 +74,7 @@ ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy = FTLE
 
 
 ## Making a video of the vector field flow(will save to your working Python environment directory in this case)
-make_vector_field_video(node_cons, node_positions, node_velocities, initial_time, final_time, time_steps, save_path="SphereVectorField.mp4", camera_setup=( (-2.5458, -6.1214, 0.8577), (-0.0008, 0.0008, 0.0006), 80.96 ))
+make_vector_field_video(TrianT, node_positions, node_velocities, initial_time, final_time, time_steps, save_path="SphereVectorField.mp4", camera_setup=( (-2.5458, -6.1214, 0.8577), (-0.0008, 0.0008, 0.0006), 80.96 ))
 
 
 
