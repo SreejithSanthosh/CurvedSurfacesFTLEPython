@@ -229,8 +229,10 @@ def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_t
     def interpolate(floor_data, ceiling_data, t_fraction):
         return t_fraction * ceiling_data + (1 - t_fraction) * floor_data
 
+    print(fine_time)
     for t_index, t in enumerate(fine_time):
-        print("time: ", t)
+        print("t_index: ", t_index)
+        print("t: ", t)
         x_curr = trajectories[:, 0, t_index]
         y_curr = trajectories[:, 1, t_index]
 
