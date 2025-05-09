@@ -31,7 +31,8 @@ def run_FTLE_2d(
         
     initial_time_index = index = np.where(time_steps == initial_time)[0][0]
     final_time_index = index = np.where(time_steps == final_time)[0][0]
-    
+
+    print(time_steps[final_time_index])
     ## Forward
     ftle, trajectories, isotropy = FTLE_2d(
     velocity_points,
@@ -175,10 +176,10 @@ def FTLE_2d(
     if direction == "backward":
 
         # Reverse time indexing
-        temp_initial_time = len(time_steps) - final_time - 1
-        final_time = len(time_steps) - initial_time - 1
-        initial_time = final_time
-        final_time = temp_initial_time
+        temp_initial_time_index = len(time_steps) - final_time_index - 1
+        final_time_index = len(time_steps) - initial_time_index - 1
+        initial_time_index = final_time_index
+        final_time_index = temp_initial_time_index
 
         if not time_independent:
             velocity_vectors = velocity_vectors[:, :, ::-1]
@@ -253,10 +254,10 @@ def FTLE_3d(
     if direction == "backward":
 
         # Time reversal
-        temp_initial_time = len(time_steps) - final_time - 1
-        final_time = len(time_steps) - initial_time - 1
-        initial_time = final_time
-        final_time = temp_initial_time
+        temp_initial_time_index = len(time_steps) - final_time_index - 1
+        final_time_index = len(time_steps) - initial_time_index - 1
+        initial_time_index = final_time_index
+        final_time_index = temp_initial_time_index
 
         if not time_independent:
             velocity_vectors = velocity_vectors[:, :, ::-1]
