@@ -193,50 +193,50 @@ def interpolate_linear_2d(particle_x, particle_y, velocity_points, velocity_valu
 
 # Let me know if you'd like the full RK4 loop refactored around this interpolation scheme.
 
+@njit
+def interpolate_time_dependent(floor_data, ceiling_data, t_fraction):
+    return t_fraction * ceiling_data + (1 - t_fraction) * floor_data
 
 @njit
-def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time):
-    """
-    RK4 integration using a numba-compatible custom interpolation routine.
-    Only supports time-independent velocity fields for now.
-    """
-    num_particles = trajectories.shape[0]
-    num_timesteps = len(fine_time)
+def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent):
+    num_particles, _, num_steps = trajectories.shape
+    k_neighbors = 8  # using first k points only
 
-    for t_index in range(num_timesteps):
+    for t_index in range(len(fine_time)):
         x_curr = trajectories[:, 0, t_index]
         y_curr = trajectories[:, 1, t_index]
 
-        # Current velocity field (assumed fixed over time)
-        u_field = velocity_vectors[:, 0]
-        v_field = velocity_vectors[:, 1]
+        if time_independent:
+            u_vals = velocity_vectors[:, 0]
+            v_vals = velocity_vectors[:, 1]
+        else:
+            t = fine_time[t_index]
+            t_floor = int(np.floor(t))
+            t_ceil = int(np.ceil(t))
+            t_frac = t - t_floor
 
-        # k1
-        k1_x = interpolate_linear_2d(x_curr, y_curr, velocity_points, u_field)
-        k1_y = interpolate_linear_2d(x_curr, y_curr, velocity_points, v_field)
+            u_vals = interpolate_time_dependent(velocity_vectors[:, 0, t_floor], velocity_vectors[:, 0, t_ceil], t_frac)
+            v_vals = interpolate_time_dependent(velocity_vectors[:, 1, t_floor], velocity_vectors[:, 1, t_ceil], t_frac)
 
-        # k2
-        x2 = x_curr + 0.5 * dt * k1_x
-        y2 = y_curr + 0.5 * dt * k1_y
-        k2_x = interpolate_linear_2d(x2, y2, velocity_points, u_field)
-        k2_y = interpolate_linear_2d(x2, y2, velocity_points, v_field)
+        def step(x_in, y_in):
+            k1_x = interpolate_linear_2d(x_in, y_in, velocity_points, u_vals, k=k_neighbors)
+            k1_y = interpolate_linear_2d(x_in, y_in, velocity_points, v_vals, k=k_neighbors)
 
-        # k3
-        x3 = x_curr + 0.5 * dt * k2_x
-        y3 = y_curr + 0.5 * dt * k2_y
-        k3_x = interpolate_linear_2d(x3, y3, velocity_points, u_field)
-        k3_y = interpolate_linear_2d(x3, y3, velocity_points, v_field)
+            k2_x = interpolate_linear_2d(x_in + 0.5 * dt * k1_x, y_in + 0.5 * dt * k1_y, velocity_points, u_vals, k=k_neighbors)
+            k2_y = interpolate_linear_2d(x_in + 0.5 * dt * k1_x, y_in + 0.5 * dt * k1_y, velocity_points, v_vals, k=k_neighbors)
 
-        # k4
-        x4 = x_curr + dt * k3_x
-        y4 = y_curr + dt * k3_y
-        k4_x = interpolate_linear_2d(x4, y4, velocity_points, u_field)
-        k4_y = interpolate_linear_2d(x4, y4, velocity_points, v_field)
+            k3_x = interpolate_linear_2d(x_in + 0.5 * dt * k2_x, y_in + 0.5 * dt * k2_y, velocity_points, u_vals, k=k_neighbors)
+            k3_y = interpolate_linear_2d(x_in + 0.5 * dt * k2_x, y_in + 0.5 * dt * k2_y, velocity_points, v_vals, k=k_neighbors)
 
-        # Final position
-        x_next = x_curr + (dt / 6.0) * (k1_x + 2*k2_x + 2*k3_x + k4_x)
-        y_next = y_curr + (dt / 6.0) * (k1_y + 2*k2_y + 2*k3_y + k4_y)
+            k4_x = interpolate_linear_2d(x_in + dt * k3_x, y_in + dt * k3_y, velocity_points, u_vals, k=k_neighbors)
+            k4_y = interpolate_linear_2d(x_in + dt * k3_x, y_in + dt * k3_y, velocity_points, v_vals, k=k_neighbors)
 
+            x_out = x_in + (dt / 6.0) * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
+            y_out = y_in + (dt / 6.0) * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
+
+            return x_out, y_out
+
+        x_next, y_next = step(x_curr, y_curr)
         trajectories[:, 0, t_index + 1] = x_next
         trajectories[:, 1, t_index + 1] = y_next
 
