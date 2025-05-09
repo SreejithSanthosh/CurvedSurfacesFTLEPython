@@ -249,7 +249,8 @@ def FTLE_3d(
         ftle (ndarray): Flattened FTLE values.
         trajectories (ndarray): (N, 3, T) particle positions over time.
     """
-
+    
+    direction = direction.lower()
     if direction == "backward":
 
         # Time reversal
@@ -275,7 +276,7 @@ def FTLE_3d(
 
     num_particles = particle_positions.shape[0]
 
-    fine_time = subdivide_time_steps(time_steps[final_time_index:initial_time_index + 1], np.abs(dt))
+    fine_time = subdivide_time_steps(time_steps[initial_time_index:final_time_index + 1], np.abs(dt))
     fine_time_length = len(fine_time)
 
     trajectories = np.zeros((num_particles, 3, fine_time_length))
@@ -296,8 +297,8 @@ def FTLE_3d(
     ftle, isotropy = FTLE_3d_compute(
         x_grid_parts, y_grid_parts, z_grid_parts,
         x_traj[:, :, :, -1], y_traj[:, :, :, -1], z_traj[:, :, :, -1],
-        time_steps[final_time_index],
-        time_steps[initial_time_index]
+        time_steps[initial_time_index],
+        time_steps[final_time_index]
     )
 
         
