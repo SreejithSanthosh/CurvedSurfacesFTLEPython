@@ -1,6 +1,6 @@
 import numpy as np
 from FTLE.Flat.FTLECompute import FTLE_2d_compute, FTLE_3d_compute
-from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate, plot_FTLE_2d_scatter, subdivide_time_steps
+from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, subdivide_time_steps
 from FTLE.Flat.advection import RK4_advection_2d, RK4_advection_3d
 
 
