@@ -18,53 +18,6 @@ def subdivide_time_steps(time_steps, dt):
     fine_time.append(time_steps[-1])  # add the last original value
     return fine_time
 
-
-
-def plot_FTLE_2d_scatter(
-    particles,
-    ftle,
-    isotropy,
-    back_ftle,
-    back_isotropy,
-    initial_time, 
-    final_time,
-    save_plot_path=None
-):
-    """
-    Plots 2D scalar fields (FTLE/isotropy, forward/backward) as scatter plots in 2x2 subplots.
-
-    Parameters:
-        particles (ndarray): shape (N, 2), particle positions in 2D.
-        ftle, isotropy, back_ftle, back_isotropy (ndarray): scalar values at particles.
-        initial_time, final_time (int): time-step labels for titles.
-        save_plot_path (str or None): if not None, path to save the plot as an image.
-    """
-    fields = [
-        (f"Forward FTLE, Time: {initial_time}-{final_time}", ftle),
-        (f"Forward Isotropy, Time: {initial_time}-{final_time}", isotropy),
-        (f"Backward FTLE, Time: {final_time}-{initial_time}", back_ftle),
-        (f"Backward Isotropy, Time: {final_time}-{initial_time}", back_isotropy)
-    ]
-
-    print(ftle)
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-
-    for ax, (title, field) in zip(axes.flat, fields):
-        sc = ax.scatter(particles[:, 0], particles[:, 1], c=field, cmap='plasma', s=8)
-        fig.colorbar(sc, ax=ax, label=title)
-        ax.set_title(title)
-        ax.set_xlabel("X Position")
-        ax.set_ylabel("Y Position")
-        ax.set_aspect('equal')
-
-    plt.tight_layout()
-
-    if save_plot_path:
-        plt.savefig(save_plot_path, dpi=300)
-        print(f"Scatter plot saved to {save_plot_path}")
-
-    plt.show()
-    return None
     
 def plot_FTLE_2d(
     x_grid_parts,
