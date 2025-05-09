@@ -90,7 +90,7 @@ def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_t
 
     return trajectories
 
-def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent):
+def RK4_advection_2d_old(velocity_points, velocity_vectors, trajectories, dt, fine_time, time_independent):
 
     def interpolate(floor_data, ceiling_data, t_fraction):
         return t_fraction*ceiling_data + (1-t_fraction)*floor_data
@@ -195,7 +195,7 @@ def interpolate_linear_2d(particle_x, particle_y, velocity_points, velocity_valu
 
 
 @njit
-def RK4_advection_2d_numba(velocity_points, velocity_vectors, trajectories, dt, fine_time):
+def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_time):
     """
     RK4 integration using a numba-compatible custom interpolation routine.
     Only supports time-independent velocity fields for now.
