@@ -111,7 +111,7 @@ def run_FTLE_3d(
     time_independent
     )
 
-    print("finished forward")
+
     ## Backward
     back_ftle, back_trajectories, back_isotropy = FTLE_3d(
     velocity_points,
@@ -126,7 +126,7 @@ def run_FTLE_3d(
     "Backward",
     time_independent
     )
-    print("finished backward")
+
 
     if plot_ftle:
         particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten(), z_grid_parts.flatten()]).T
