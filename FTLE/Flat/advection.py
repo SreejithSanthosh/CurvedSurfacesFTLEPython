@@ -223,12 +223,11 @@ def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_t
     """
 
     # Compute Gaussian kernel width c
-    c = average_nearest_neighbor_distance(velocity_points)
+    c = 0.5*average_nearest_neighbor_distance(velocity_points)
 
     def interpolate(floor_data, ceiling_data, t_fraction):
         return t_fraction * ceiling_data + (1 - t_fraction) * floor_data
 
-    print(fine_time)
     for t_index, t in enumerate(fine_time):
         print("t_index: ", t_index)
         print("t: ", t)
