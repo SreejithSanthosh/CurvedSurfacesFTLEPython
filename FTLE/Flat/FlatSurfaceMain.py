@@ -275,7 +275,8 @@ def FTLE_3d(
 
     num_particles = particle_positions.shape[0]
 
-
+    print("initial_time_index:", intitial_time_index)
+    print("final_time_index::", final_time_index)
     fine_time = subdivide_time_steps(time_steps[initial_time_index:final_time_index + 1], np.abs(dt))
     fine_time_length = len(fine_time)
 
