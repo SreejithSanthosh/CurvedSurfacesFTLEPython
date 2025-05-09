@@ -46,7 +46,6 @@ def RK4_advection_3d(velocity_points, velocity_vectors, trajectories, dt, fine_t
     # --- Time-dependent advection ---
     else:
         for t_index, t in enumerate(fine_time):
-            print(t)
             t_floor = int(np.floor(t))
             t_ceiling = int(np.ceil(t))
             t_fraction = t - t_floor  
