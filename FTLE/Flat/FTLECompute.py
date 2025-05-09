@@ -90,9 +90,9 @@ def FTLE_3d_compute(x_initial, y_initial, z_initial, x_final, y_final, z_final, 
                 F_right[0, 1] = (x_final[x_index, y_index + 1, z_index] - x_final[x_index, y_index - 1, z_index]) / (2 * dy)
                 F_right[0, 2] = (x_final[x_index, y_index, z_index + 1] - x_final[x_index, y_index, z_index - 1]) / (2 * dz)
 
-                F_right[1, 0] = (y_final[x_index + index_shift, y_index, z_index] - y_final[x_index - 1, y_index, z_index]) / (2 * dx)
-                F_right[1, 1] = (y_final[x_index, y_index + index_shift, z_index] - y_final[x_index, y_index - 1, z_index]) / (2 * dy)
-                F_right[1, 2] = (y_final[x_index, y_index, z_index + index_shift] - y_final[x_index, y_index, z_index - 1]) / (2 * dz)
+                F_right[1, 0] = (y_final[x_index + 1, y_index, z_index] - y_final[x_index - 1, y_index, z_index]) / (2 * dx)
+                F_right[1, 1] = (y_final[x_index, y_index + 1, z_index] - y_final[x_index, y_index - 1, z_index]) / (2 * dy)
+                F_right[1, 2] = (y_final[x_index, y_index, z_index + 1] - y_final[x_index, y_index, z_index - 1]) / (2 * dz)
 
                 F_right[2, 0] = (z_final[x_index + 1, y_index, z_index] - z_final[x_index - 1, y_index, z_index]) / (2 * dx)
                 F_right[2, 1] = (z_final[x_index, y_index + 1, z_index] - z_final[x_index, y_index - 1, z_index]) / (2 * dy)
