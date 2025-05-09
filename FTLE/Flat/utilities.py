@@ -7,6 +7,7 @@ from scipy.interpolate import griddata
 
 def subdivide_time_steps(time_steps, dt):
     print("time_steps at subdivide", time_steps)
+    print(time_steps[-1])
     assert 0 < dt <= 1, "alpha must be in (0, 1]"
     fine_time = []
     for i in range(len(time_steps) - 1):
@@ -18,6 +19,7 @@ def subdivide_time_steps(time_steps, dt):
         for j in range(num_subdivisions):
             fine_time.append(start + j * step)
     fine_time.append(time_steps[-1])  # add the last original value
+    print(time_steps[-1])
     return fine_time
 
 
