@@ -1,6 +1,6 @@
 import numpy as np
 from FTLE.Flat.FTLECompute import FTLE_2d_compute, FTLE_3d_compute
-from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate, plot_FTLE_2d_scatter
+from FTLE.Flat.utilities import plot_FTLE_2d, plot_FTLE_3d, interpolate, plot_FTLE_2d_scatter, subdivide_time_steps
 from FTLE.Flat.advection import RK4_advection_2d, RK4_advection_3d
 
 
@@ -188,6 +188,7 @@ def FTLE_2d(
     num_particles = particles_positions.shape[0]
 
     fine_time = np.arange(time_steps[initial_time], time_steps[final_time] + np.abs(dt), np.abs(dt))
+    fine_time = subdivide_time_steps(time_steps, np.abs(dt))
     fine_time_length = len(fine_time)
 
     trajectories = np.zeros((num_particles, 2, fine_time_length))
@@ -284,6 +285,7 @@ def FTLE_3d(
     num_particles = particle_positions.shape[0]
 
     fine_time = np.arange(time_steps[initial_time], time_steps[final_time], np.abs(dt))
+    fine_time = subdivide_time_steps(time_steps, np.abs(dt))
     fine_time_length = len(fine_time)
 
     trajectories = np.zeros((num_particles, 3, fine_time_length))
