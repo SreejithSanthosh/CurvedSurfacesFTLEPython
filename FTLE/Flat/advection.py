@@ -192,7 +192,6 @@ def gaussian_interpolator_2d(x_eval, y_eval, velocity_points, velocity_vectors, 
     for i in range(velocity_points.shape[0]):
         x_guassian_weight = np.exp(-((x_eval - velocity_points[i, 0])/(2*c))**2)
         y_guassian_weight = np.exp(-((y_eval - velocity_points[i, 1])/(2*c))**2)
-        weight = np.exp(-(dx * dx + dy * dy) / (2 * c * c))
 
         vx += x_guassian_weight * velocity_vectors[i, 0]
         vy += y_guassian_weight * velocity_vectors[i, 1]
