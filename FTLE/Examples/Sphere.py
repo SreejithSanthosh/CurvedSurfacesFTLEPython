@@ -68,4 +68,13 @@ final_time = 22
 particle_positions = node_positions[initial_time]
 
 
+## Running the simulation
 ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, neighborhood=10)
+
+
+## Making a video of the vector field flow(will save to your working Python environment directory in this case)
+make_vector_field_video(node_cons, node_positions, node_velocities, initial_time, final_time, time_steps, save_path="SphereVectorField.mp4", camera_setup=( (-2.5458, -6.1214, 0.8577), (-0.0008, 0.0008, 0.0006), 80.96 ))
+
+
+
+
