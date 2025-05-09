@@ -211,7 +211,7 @@ def FTLE_2d(
         x_grid_parts, y_grid_parts,
         x_traj[:, :, -1], y_traj[:, :, -1],
         time_steps[initial_time_index],
-        time_steps[final_time]
+        time_steps[final_time_index]
     )
 
 
@@ -299,7 +299,7 @@ def FTLE_3d(
         x_grid_parts, y_grid_parts, z_grid_parts,
         x_traj[:, :, :, -1], y_traj[:, :, :, -1], z_traj[:, :, :, -1],
         time_steps[initial_time_index],
-        time_steps[final_time]
+        time_steps[final_time_index]
     )
 
         
