@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) # For locating your directory
 
 from FTLE.Curved.CurvedSurfaceMain import FTLE_mesh # The primary function used for FTLE mesh calculations
+from FTLE.Curved.utilities import make_vector_field_video
 import h5py # for .h5 files
 
 
