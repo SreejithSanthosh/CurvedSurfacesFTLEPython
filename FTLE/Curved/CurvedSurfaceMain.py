@@ -5,7 +5,7 @@ from scipy.spatial import cKDTree
 from itertools import combinations
 from FTLE.Curved.advection import RK4_particle_advection
 from FTLE.Curved.FTLECompute import FTLE_compute
-from FTLE.Curved.utilities import plot_FTLE_mesh, plot_FTLE_mesh4
+from FTLE.Curved.utilities import plot_FTLE_mesh
 
 
 
