@@ -32,7 +32,7 @@ def run_FTLE_2d(
     initial_time_index = index = np.where(time_steps == initial_time)[0][0]
     final_time_index = index = np.where(time_steps == final_time)[0][0]
 
-    print(time_steps[final_time_index])
+
     ## Forward
     ftle, trajectories, isotropy = FTLE_2d(
     velocity_points,
@@ -192,9 +192,7 @@ def FTLE_2d(
     particles_positions = np.vstack([x_grid_parts.flatten(), y_grid_parts.flatten()]).T
     num_particles = particles_positions.shape[0]
 
-    fine_time = np.arange(time_steps[initial_time_index], time_steps[final_time_index] + np.abs(dt), np.abs(dt))
     fine_time = subdivide_time_steps(time_steps[initial_time_index:final_time_index + 1], np.abs(dt))
-    print("fine_time right after subdivide",fine_time)
     fine_time_length = len(fine_time)
 
     trajectories = np.zeros((num_particles, 2, fine_time_length))
@@ -277,7 +275,7 @@ def FTLE_3d(
 
     num_particles = particle_positions.shape[0]
 
-    fine_time = np.arange(time_steps[initial_time_index], time_steps[final_time_index], np.abs(dt))
+
     fine_time = subdivide_time_steps(time_steps[initial_time_index:final_time_index + 1], np.abs(dt))
     fine_time_length = len(fine_time)
 
