@@ -22,6 +22,12 @@ def run_FTLE_2d(
 
     if initial_time not in time_steps or final_time not in time_steps:
         raise ValueError("Initial and final times must be in `time_steps`.")
+
+    if intial_time >= final_time:
+        raise ValueError("initial_time must be less than or equal to final_time")
+
+    if dt > 1 or dt <= 0:
+        raise ValueError("Error: dt must be in the interval (0,1]")
         
     initial_time_index = index = np.where(time_steps == initial_time)[0][0]
     final_time_index = index = np.where(time_steps == final_time)[0][0]
@@ -78,8 +84,13 @@ def run_FTLE_3d(
 
     if initial_time not in time_steps or final_time not in time_steps:
         raise ValueError("Initial and final times must be in `time_steps`.")
-        
 
+    if intial_time >= final_time:
+        raise ValueError("initial_time must be less than or equal to final_time")
+
+    if dt > 1 or dt <= 0:
+        raise ValueError("Error: dt must be in the interval (0,1]")
+        
     initial_time_index = index = np.where(time_steps == initial_time)[0][0]
     final_time_index = index = np.where(time_steps == final_time)[0][0]
 
@@ -156,19 +167,9 @@ def FTLE_2d(
         trajectories (ndarray): (N, 2, T) array of particle positions over time.
     """
 
-    # --- Error checking ---
-    if dt > 1 or dt <= 0:
-        raise ValueError("Error: dt must be in the interval (0,1]")
-    if initial_time == final_time:
-        raise ValueError("Error: Initial and final times must differ.")
 
     direction = direction.lower()
-    if direction == "forward":
-        if initial_time > final_time:
-            raise ValueError("Error: Forward advection requires initial_time < final_time")
-    elif direction == "backward":
-        if initial_time < final_time:
-            raise ValueError("Error: Backward advection requires initial_time > final_time")
+    if direction == "backward":
 
         # Reverse time indexing
         temp_initial_time = len(time_steps) - final_time - 1
@@ -246,20 +247,7 @@ def FTLE_3d(
         trajectories (ndarray): (N, 3, T) particle positions over time.
     """
 
-    
-    # --- Error checking ---
-    if dt > 1 or dt <= 0:
-        raise ValueError("Error: dt must be in the interval (0, 1].")
-    if initial_time == final_time:
-        raise ValueError("Error: initial_time and final_time must differ.")
-
-    direction = direction.lower()
-    if direction == "forward":
-        if initial_time > final_time:
-            raise ValueError("Error: Forward advection requires initial_time < final_time.")
-    elif direction == "backward":
-        if initial_time < final_time:
-            raise ValueError("Error: Backward advection requires initial_time > final_time.")
+    if direction == "backward":
 
         # Time reversal
         temp_initial_time = len(time_steps) - final_time - 1
