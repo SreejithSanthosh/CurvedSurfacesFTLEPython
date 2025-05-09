@@ -111,7 +111,6 @@ def make_vector_field_video(
         framerate: Frames per second for the video.
         camera_setup: Optional tuple (position, focal_point, roll) to set camera state.
     """
-    time_steps = time_steps.tolist()
 
     if initial_time >= final_time:
         raise ValueError("Initial time must be less than final time")
