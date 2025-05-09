@@ -190,8 +190,8 @@ def gaussian_interpolator_2d(x_eval, y_eval, velocity_points, velocity_vectors, 
 
 
     for i in range(velocity_points.shape[0]):
-        x_guassian_weight = np.exp(-((x_eval - velocity_points[i, 0])/(2*c))**2)
-        y_guassian_weight = np.exp(-((y_eval - velocity_points[i, 1])/(2*c))**2)
+        x_guassian_weight = np.exp(-(x_eval - velocity_points[i, 0])**2/(2*c*c))
+        y_guassian_weight = np.exp(-(y_eval - velocity_points[i, 1])**2/(2*c*c))
 
         vx += x_guassian_weight * velocity_vectors[i, 0]
         vy += y_guassian_weight * velocity_vectors[i, 1]
@@ -217,7 +217,7 @@ def RK4_advection_2d(velocity_points, velocity_vectors, trajectories, dt, fine_t
     """
 
     # Compute Gaussian kernel width c
-    c = 0.5*average_nearest_neighbor_distance(velocity_points)
+    c = 0.5 * average_nearest_neighbor_distance(velocity_points)
 
     def interpolate(floor_data, ceiling_data, t_fraction):
         return t_fraction * ceiling_data + (1 - t_fraction) * floor_data
