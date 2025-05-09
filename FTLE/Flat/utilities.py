@@ -5,6 +5,21 @@ from scipy.interpolate import griddata
 
 
 
+def subdivide_time_steps(time_steps, dt):
+    assert 0 < dt <= 1, "alpha must be in (0, 1]"
+    fine_time = []
+    for i in range(len(time_steps) - 1):
+        start = time_steps[i]
+        end = time_steps[i + 1]
+        num_subdivisions = int(1 / dt)
+        step = (end - start) * dt
+        # Include intermediate points
+        for j in range(num_subdivisions):
+            fine_time.append(start + j * step)
+    fine_time.append(time_steps[-1])  # add the last original value
+    return fine_time
+
+
 def interpolate(floor_data, ceiling_data, t_fraction):
     return t_fraction*ceiling_data + (1-t_fraction)*floor_data
 
