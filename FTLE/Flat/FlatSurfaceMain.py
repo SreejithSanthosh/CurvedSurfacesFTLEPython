@@ -23,7 +23,7 @@ def run_FTLE_2d(
     if initial_time not in time_steps or final_time not in time_steps:
         raise ValueError("Initial and final times must be in `time_steps`.")
 
-    if intial_time >= final_time:
+    if initial_time >= final_time:
         raise ValueError("initial_time must be less than or equal to final_time")
 
     if dt > 1 or dt <= 0:
@@ -85,7 +85,7 @@ def run_FTLE_3d(
     if initial_time not in time_steps or final_time not in time_steps:
         raise ValueError("Initial and final times must be in `time_steps`.")
 
-    if intial_time >= final_time:
+    if initial_time >= final_time:
         raise ValueError("initial_time must be less than or equal to final_time")
 
     if dt > 1 or dt <= 0:
