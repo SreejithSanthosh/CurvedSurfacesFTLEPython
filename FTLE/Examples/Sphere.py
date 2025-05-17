@@ -9,6 +9,7 @@ import h5py # for .h5 files
 
 def load_mesh_data_h5(h5_file_path):
     """
+    Example function for loading the expected data format.
     Load staggered curved surface mesh data from an HDF5 file.
     Expects groups:
         /node_cons/{t}
