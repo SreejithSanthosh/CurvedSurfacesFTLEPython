@@ -14,8 +14,8 @@ with h5py.File(file_path, 'r') as f:
     time_steps = f['time_steps'][:]                  # shape (T,)
 
 # --- Define 2D grid for particle seeding (must be inside domain) ---
-x = np.linspace(0, 10, 150)
-y = np.linspace(-3, 3, 150)
+x = np.linspace(0, 10, 120)
+y = np.linspace(-3, 3, 120)
 X, Y = np.meshgrid(x, y)
 
 # Swap the rows and columns
