@@ -43,7 +43,7 @@ def load_mesh_data_h5(h5_file_path):
         'total_time': total_time
     }
 
-file_path = os.path.join(os.path.dirname(__file__), 'growingSphere.h5') # fetches the path to the example data contained within the Examples folder
+file_path = os.path.join(os.path.dirname(__file__), 'growing_sphere.h5') # fetches the path to the example data contained within the Examples folder
 
 
 """
