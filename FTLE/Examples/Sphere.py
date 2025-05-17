@@ -70,7 +70,7 @@ particle_positions = node_positions[initial_time]
 
 
 ## Running the simulation
-ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, neighborhood=10)
+ftle, trajectories, isotropy, back_ftle, back_trajectories, back_isotropy = FTLE_mesh(TrianT, node_positions, node_velocities, particle_positions, initial_time, final_time, time_steps, plot_ftle=True, save_path="growingSphere.png", neighborhood=10)
 
 
 ## Making a video of the vector field flow(will save to your working Python environment directory in this case)
