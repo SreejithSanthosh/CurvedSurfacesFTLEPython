@@ -1,8 +1,8 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))  # Adjust for relative import
 
-from FTLE.Flat.FlatSurfaceMain import run_FTLE_2d
+from FTLE.Flat.FlatSurfaceMain import run_FTLE_2d # Primary FTLE computation
 import h5py
 import numpy as np
 
