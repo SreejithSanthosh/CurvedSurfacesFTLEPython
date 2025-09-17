@@ -1,6 +1,9 @@
-
-The Python code for computing Coherent Structures based on Finite-Time-Lyapunov Exponents (FTLE) and Lagrangian deformation for flow on curved surfaces is available at this [link](https://github.com/SreejithSanthosh/CurvedSurfacesFTLEPython). The following tutorial provides instructions on how to use the code. To understand the mathematical background or additional information on the methods discussed here, we refer you to the accompanying manuscript [S. Santhosh, C. Zhu, B. Fencil, M. Serra](Necessary Link). 
-
+## Lagrangian coherent structures for flows on curved surfaces 
+This repository contains python code to compute coherent structures and Lagrangian deformation for flows on curved surfaces. Details regarding the method are given in the accompanying paper [S. Santhosh, C. Zhu, B. Fencil, M. Serra](https://doi.org/10.1101/2025.05.23.655805) [1]. The tutorial on how to use this code is described in the [documentation](https://github.com/SreejithSanthosh/CurvedSurfacesFTLEPython)  
 
 ![FTLE Banner](https://raw.githubusercontent.com/SreejithSanthosh/FTLEhub/main/Images/FTLEBanner.png)
+
+If you are using any of the code, please cite the accompanying work [1].
+
+[1] Santhosh, S., Zhu, C., Fencil, B., & Serra, M. (2025). Coherent Structures in Active Flows on Dynamic Surfaces. bioRxiv, 2025-05.
 
